@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title data-i18n="iosp.pageTitle">NeverFap on iOS</title>
+    <meta name="theme-color" content="#0a0503" />
+
+    <!-- maintenance mode redirect -->
+    <script src="../config.js"></script>
+    <script src="./i18n.js?v=3"></script>
+    <script src="../maintenance-check.js?v=3" data-version="2.0.0"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400..800&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./theme.css?v=2">
+    <script src="./fx.js?v=1"></script>
+
+    <link rel="icon" type="image/png" href="../neverfapsmall.png">
+    <link rel="apple-touch-icon" href="../neverfapsmall.png">
+
+    <style>
+      /* Numbered steps joined by a glowing rail */
+      .ios-steps { position: relative; display: grid; gap: 26px; }
+      .ios-steps::before {
+        content: ""; position: absolute; left: 21px; top: 30px; bottom: 30px; width: 2px;
+        background: linear-gradient(180deg, var(--brand-b), var(--brand-a) 60%, transparent);
+        opacity: 0.35; border-radius: 2px;
+        animation: railIn 1.4s var(--ease-out) 0.35s both;
+      }
+      @keyframes railIn { from { opacity: 0; transform: scaleY(0); transform-origin: top; } to { opacity: 0.35; transform: scaleY(1); transform-origin: top; } }
+      .ios-step { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; }
+      .ios-num {
+        position: relative; z-index: 1;
+        display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px;
+        font: 800 17px/1 var(--font-display); color: var(--brand-ink);
+        background: linear-gradient(180deg, #ffc978, var(--brand-a));
+        box-shadow: 0 0 0 5px var(--bg), 0 10px 26px -10px rgba(249, 115, 22, 0.9);
+      }
+      .ios-shot { display: grid; place-items: center; overflow: hidden; }
+      .ios-shot img { width: 100%; height: 100%; object-fit: contain; padding: 14px; transition: transform 0.6s var(--ease-out); }
+      .ios-shot:hover img { transform: scale(1.03); }
+    </style>
+  </head>
+
+  <body class="min-h-screen">
+
+    <!-- Icons live in the page itself: <use href="file.svg#…"> is blocked on file://
+         (and flaky elsewhere), same-document <use href="#…"> works everywhere. -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2.5"/><path d="M12 18h.01"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></symbol>
+    </svg>
+    <main class="mx-auto max-w-3xl px-4 pb-20 pt-8 sm:px-6 sm:pt-12">
+      <header class="nf-rise flex items-center justify-between gap-4" style="--d:0">
+        <a href="./index.html" class="nf-btn nf-btn--ghost nf-btn--sm">
+          <svg class="i i--sm"><use href="#i-back"/></svg>
+          <span data-i18n="del.back">Back</span>
+        </a>
+        <!-- Language picker (i18n.js mounts the select in here) -->
+        <div data-nf-lang class="shrink-0"></div>
+      </header>
+
+      <div class="nf-rise mt-10 flex items-center gap-4" style="--d:1">
+        <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-phone"/></svg></span>
+        <div>
+          <h1 data-i18n="iosp.title" class="nf-title text-3xl sm:text-4xl">NeverFap on iOS</h1>
+          <p data-i18n="iosp.sub" class="nf-muted mt-1 text-sm">Use NeverFap on iPhone via Safari — no App Store required.</p>
+        </div>
+      </div>
+
+      <ol class="ios-steps mt-10">
+        <li class="ios-step nf-rise" style="--d:2">
+          <span class="ios-num">1</span>
+          <div>
+            <p data-i18n="iosp.s1" class="mb-3 mt-2.5 font-semibold">Search for NeverFap in Safari</p>
+            <div class="nf-card ios-shot h-56"><img src="../step1nfios.jpeg" alt="Search for NeverFap in Safari" data-i18n-attr="alt:iosp.s1" loading="lazy" /></div>
+          </div>
+        </li>
+        <li class="ios-step nf-rise" style="--d:3">
+          <span class="ios-num">2</span>
+          <div>
+            <p data-i18n="iosp.s2" class="mb-3 mt-2.5 font-semibold">Click the three-dots menu</p>
+            <div class="nf-card ios-shot h-56"><img src="../step2nfios.jpeg" alt="Open Safari menu" data-i18n-attr="alt:iosp.s2alt" loading="lazy" /></div>
+          </div>
+        </li>
+        <li class="ios-step nf-rise" style="--d:4">
+          <span class="ios-num">3</span>
+          <div>
+            <p data-i18n="iosp.s3" class="mb-3 mt-2.5 font-semibold">Select Share</p>
+            <div class="nf-card ios-shot h-72"><img src="../step3nfios.jpeg" alt="Tap Share" data-i18n-attr="alt:iosp.s3alt" loading="lazy" /></div>
+          </div>
+        </li>
+        <li class="ios-step nf-rise" style="--d:5">
+          <span class="ios-num">4</span>
+          <div>
+            <p data-i18n="iosp.s4" class="mb-3 mt-2.5 font-semibold">Select “Add to Home Screen”</p>
+            <div class="nf-card ios-shot h-[550px]"><img src="../step4nfios.jpeg" alt="Add to Home Screen" data-i18n-attr="alt:iosp.s4alt" loading="lazy" /></div>
+          </div>
+        </li>
+        <li class="ios-step nf-rise" style="--d:6">
+          <span class="ios-num">5</span>
+          <div>
+            <p data-i18n="iosp.s5" class="mb-3 mt-2.5 font-semibold">Confirm and add</p>
+            <div class="nf-card ios-shot h-[550px]"><img src="../step5nfios.jpeg" alt="Confirm adding to Home Screen" data-i18n-attr="alt:iosp.s5alt" loading="lazy" /></div>
+          </div>
+        </li>
+        <li class="ios-step nf-rise" style="--d:7">
+          <span class="ios-num">6</span>
+          <div>
+            <p data-i18n="iosp.s6" class="mb-3 mt-2.5 font-semibold">Launch from your Home Screen</p>
+            <div class="nf-card ios-shot h-72"><img src="../step6nfios.jpeg" alt="Launch NeverFap" data-i18n-attr="alt:iosp.s6alt" loading="lazy" /></div>
+          </div>
+        </li>
+      </ol>
+
+      <footer class="nf-faint mt-14 flex items-center justify-center gap-2 text-center text-xs">
+        <svg class="i i--sm"><use href="#i-sparkles"/></svg>
+        <span data-i18n="iosp.footer">iOS support via Progressive Web App (PWA)</span>
+      </footer>
+    </main>
+  </body>
+</html>

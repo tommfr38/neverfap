@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>NeverFap</title>
+    <!-- <meta http-equiv="refresh" content="0; url=maintenance.html"> -->
+
+    <!-- SEO / sharing -->
+    <meta name="title" content="NeverFap">
+    <meta name="description" content="A minimal, private tool to help quit porn. Grow your flame with time, reset when needed, and keep a private diary.">
+    <meta property="og:title" content="NeverFap">
+    <meta property="og:description" content="Grow your flame by staying clean. Reset if you fail. Private diary. Calm control over time.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tomm101-bored.github.io/neverfap/">
+    <meta property="og:image" content="../og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NeverFap">
+    <meta name="twitter:description" content="A private streak-based tracker for quitting porn. Minimal. Persistent. Yours.">
+    <meta name="twitter:image" content="../og-image.png">
+    <meta name="theme-color" content="#0a0503">
+
+    <link rel="icon" type="image/png" href="../neverfapsmall.png">
+    <link rel="apple-touch-icon" href="../neverfapsmall.png">
+
+    <!-- Fonts: Bricolage Grotesque (display) + Inter (UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400..800&display=swap">
+
+    <!-- Tailwind (CDN) for layout utilities; the look lives in theme.css -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./theme.css?v=2">
+
+    <!-- Supabase JS (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- ?v= is a cache buster: bump it on every deploy so browsers can't pair
+         a fresh index.html with a stale script. -->
+    <script src="../config.js?v=2"></script>
+
+    <!-- i18n: EN / DE / ES / FR / HU. Must load before app.js. -->
+    <script src="./i18n.js?v=3"></script>
+
+    <!-- maintenance mode redirect -->
+    <script src="../maintenance-check.js?v=3" data-version="2.0.0"></script>
+
+    <!-- ambient background, spotlight, modal transitions -->
+    <script src="./fx.js?v=1"></script>
+  </head>
+
+  <body class="is-loading min-h-screen">
+
+    <!-- Icons live in the page itself: <use href="file.svg#…"> is blocked on file://
+         (and flaky elsewhere), same-document <use href="#…"> works everywhere. -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+      <symbol id="i-bug" viewBox="0 0 24 24"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></symbol>
+      <symbol id="i-buoy" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-feather" viewBox="0 0 24 24"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r="1" fill="currentColor"/></symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2.5"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2.5"/><path d="M12 18h.01"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+      <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    </svg>
+
+<!-- ============================ LOADING SCREEN ============================ -->
+<div id="loadingScreen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden" style="background:#0a0503">
+  <div class="absolute inset-0" style="background:radial-gradient(55% 45% at 50% 42%, rgba(249,115,22,.18), transparent 70%), radial-gradient(90% 60% at 50% 120%, rgba(249,115,22,.10), transparent 70%), linear-gradient(180deg,#120804,#070302)"></div>
+
+  <div class="relative z-10 flex flex-col items-center px-6 text-center">
+    <div class="nf-pop relative grid h-28 w-28 place-items-center">
+      <div class="nf-loader-orbit nf-loader-orbit--slow"></div>
+      <div class="nf-loader-orbit"></div>
+      <div class="nf-flame" data-lit="true" style="--size:112px">
+        <div class="nf-flame__halo"></div>
+        <svg class="nf-flame__svg" viewBox="0 0 100 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="ldO" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#dc2626"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+            <linearGradient id="ldN" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#fde047"/></linearGradient>
+            <radialGradient id="ldC" cx="50" cy="104" r="16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff7d6"/><stop offset="1" stop-color="#fde047"/></radialGradient>
+          </defs>
+          <path class="fl-outer" fill="url(#ldO)" d="M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z"/>
+          <path class="fl-inner" fill="url(#ldN)" opacity=".9" d="M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z"/>
+          <path class="fl-core" fill="url(#ldC)" d="M50 114 C41 114 35 108 36 99 C37 90 44 85 47 77 C54 83 62 91 62 100 C62 108 57 114 50 114 Z"/>
+        </svg>
+      </div>
+    </div>
+
+    <h1 class="nf-rise mt-12 font-display text-4xl font-extrabold tracking-tight" style="--d:1"><span class="nf-gradient-text">NeverFap</span></h1>
+    <p data-i18n="load.init" class="nf-rise nf-eyebrow mt-2.5" style="--d:2">Initializing system</p>
+
+    <div class="nf-rise nf-loadbar mt-9" style="--d:3">
+      <div id="loadingBar" style="width:0%;transition:none"></div>
+    </div>
+
+    <div class="mt-9 min-h-[5rem] w-full max-w-sm">
+      <div id="loadingTip" class="transition-opacity duration-700" style="opacity:0">
+        <p class="nf-eyebrow" style="color:var(--brand-b)"><span id="loadingTipLabel"></span></p>
+        <p id="loadingTipText" class="nf-muted mt-2 text-sm leading-relaxed"></p>
+      </div>
+    </div>
+
+    <button id="btnSkipLoad" type="button" data-i18n="load.skip" class="nf-btn nf-btn--ghost nf-btn--sm mt-3">Skip</button>
+  </div>
+
+  <div class="absolute bottom-8 left-0 right-0 text-center">
+    <p id="processorText" class="font-mono text-[11px] tracking-wider" style="color:var(--ink-4)">Loading Alpha Processors 0/84</p>
+  </div>
+</div>
+
+<!-- Crash screen (gag, only reachable via Skip) -->
+<div id="crashScreen" class="fixed inset-0 z-[10000] hidden flex-col items-center justify-center px-6 text-center" style="background:#060302">
+  <div class="nf-pop relative z-10 flex flex-col items-center gap-5">
+    <div class="text-6xl">💀</div>
+    <div>
+      <h2 data-i18n="crash.title" class="nf-title text-3xl">NeverFap has crashed.</h2>
+      <p data-i18n="crash.sub" class="nf-muted mt-2 text-sm">Please reload.</p>
+    </div>
+    <button id="btnCrashReload" type="button" data-i18n="crash.reload" class="nf-btn nf-btn--primary nf-btn--lg">Reload</button>
+  </div>
+</div>
+
+<div class="nf-page">
+  <!-- ================================ HEADER ================================ -->
+  <header class="nf-header">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <div class="flex min-w-0 items-center gap-3">
+        <svg class="nf-logo" viewBox="0 0 100 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="lgO" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#dc2626"/><stop offset="1" stop-color="#fb923c"/></linearGradient>
+            <linearGradient id="lgN" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#fde68a"/></linearGradient>
+          </defs>
+          <path fill="url(#lgO)" d="M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z"/>
+          <path fill="url(#lgN)" d="M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z"/>
+        </svg>
+        <div class="min-w-0">
+          <div class="flex items-center gap-3">
+            <h1 class="font-display text-[22px] font-extrabold leading-none tracking-tight">NeverFap</h1>
+
+            <!-- Clawd celebration: he walks there and back; click him! -->
+            <div id="clawdTrack" class="relative hidden h-8 w-28 select-none" aria-hidden="false">
+              <div id="clawdWalker" class="absolute bottom-0 left-0 will-change-transform">
+                <button id="clawd" type="button" title="Who's this little guy?"
+                  data-i18n-attr="title:header.clawdTitle"
+                  class="block cursor-pointer bg-transparent p-0 outline-none"
+                  aria-label="Clawd">
+                  <svg width="32" height="27" viewBox="0 0 56 48" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                    <path d="M6 4 H50 V16 H55 V25 H50 V34
+                             H46 V44 H40 V34 H37 V44 H31 V34 H25 V44 H19 V34 H16 V44 H10 V34 H6
+                             V25 H1 V16 H6 Z"
+                          fill="#D0704F"/>
+                    <rect class="clawdEye" x="14" y="12" width="7" height="8" fill="#141414"/>
+                    <rect class="clawdEye" x="35" y="12" width="7" height="8" fill="#141414"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <p data-i18n="header.tagline" class="nf-faint mt-1 truncate text-[12.5px] max-sm:hidden">Be healthier, never fap.</p>
+        </div>
+      </div>
+
+      <div class="ml-auto flex flex-wrap items-center justify-end gap-2">
+        <!-- Language picker (i18n.js mounts the select in here) -->
+        <div data-nf-lang class="flex"></div>
+
+        <button id="btnAchievements" type="button" class="nf-btn nf-btn--ghost nf-btn--sm hidden">
+          <svg class="i i--sm"><use href="#i-trophy"/></svg>
+          <span data-i18n="header.achievements" class="max-sm:hidden">Achievements</span>
+          <span id="achBadge" class="nf-badge nf-badge--muted">0/6</span>
+        </button>
+
+        <span id="userEmail" class="nf-faint hidden max-w-[14rem] truncate text-[13px] md:inline max-md:!hidden"></span>
+
+        <button id="btnSignOut" type="button" class="nf-btn nf-btn--quiet nf-btn--sm hidden"
+          data-i18n-attr="title:header.signout" title="Sign out">
+          <svg class="i i--sm"><use href="#i-logout"/></svg>
+          <span data-i18n="header.signout" class="max-sm:sr-only">Sign out</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 pb-28 pt-4 sm:px-6 sm:pt-8">
+    <!-- Toast -->
+    <div id="toast" role="status" aria-live="polite" class="nf-toast hidden">
+      <span class="nf-toast__icon"><svg class="i"><use href="#i-flame"/></svg></span>
+      <span id="toastText"></span>
+    </div>
+
+    <!-- ============================ AUTH / LANDING ============================ -->
+    <section id="viewAuth" class="grid items-center gap-10 py-4 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-12">
+      <div class="text-center lg:text-left">
+        <div class="nf-pop mx-auto w-fit lg:mx-0" style="--d:0">
+          <div class="nf-flame" data-lit="true" style="--size:200px">
+            <svg class="nf-flame__ring" viewBox="0 0 200 200" aria-hidden="true">
+              <circle class="nf-flame__ticks" cx="100" cy="100" r="97" pathLength="100"/>
+              <circle class="nf-flame__track" cx="100" cy="100" r="88"/>
+            </svg>
+            <div class="nf-flame__halo"></div>
+            <div class="nf-flame__floor"></div>
+            <svg class="nf-flame__svg" viewBox="0 0 100 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="heroO" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse"><stop class="fl-o1" offset="0"/><stop class="fl-o2" offset="1"/></linearGradient>
+                <linearGradient id="heroN" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop class="fl-i1" offset="0"/><stop class="fl-i2" offset="1"/></linearGradient>
+                <radialGradient id="heroC" cx="50" cy="104" r="16" gradientUnits="userSpaceOnUse"><stop class="fl-c1" offset="0"/><stop class="fl-c2" offset="1"/></radialGradient>
+              </defs>
+              <path class="fl-outer" fill="url(#heroO)" d="M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z"/>
+              <path class="fl-inner" fill="url(#heroN)" opacity=".9" d="M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z"/>
+              <path class="fl-core" fill="url(#heroC)" d="M50 114 C41 114 35 108 36 99 C37 90 44 85 47 77 C54 83 62 91 62 100 C62 108 57 114 50 114 Z"/>
+            </svg>
+            <div class="nf-sparks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+
+        <h2 data-i18n="hero.title" class="nf-rise nf-gradient-text mt-8 font-display text-[44px] font-extrabold leading-[1.02] tracking-tight sm:text-6xl" style="--d:1">Take back control.</h2>
+        <p data-i18n="hero.sub" class="nf-rise nf-muted mx-auto mt-5 max-w-xl text-[17px] leading-relaxed lg:mx-0" style="--d:2">A calm, private companion for quitting porn. Every clean hour grows your flame.</p>
+
+        <ul class="nf-rise mx-auto mt-8 grid max-w-md gap-3.5 text-left lg:mx-0" style="--d:3">
+          <li class="flex items-center gap-3.5">
+            <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-book"/></svg></span>
+            <span data-i18n="hero.f1" class="text-[15px] font-medium">A private diary only you can read</span>
+          </li>
+          <li class="flex items-center gap-3.5">
+            <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-buoy"/></svg></span>
+            <span data-i18n="hero.f2" class="text-[15px] font-medium">Panic mode for the hardest moments</span>
+          </li>
+          <li class="flex items-center gap-3.5">
+            <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-trophy"/></svg></span>
+            <span data-i18n="hero.f3" class="text-[15px] font-medium">Flames and achievements that grow with you</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nf-rise" style="--d:2">
+        <div class="nf-card p-6 sm:p-8">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 data-i18n="auth.title" class="nf-title text-[26px]">Log in</h2>
+              <p class="nf-muted mt-1.5 flex items-center gap-1.5 text-sm">
+                <svg class="i i--sm" style="color:var(--success)"><use href="#i-shield"/></svg>
+                <span data-i18n="auth.sub">Your data is secured.</span>
+              </p>
+            </div>
+            <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-key"/></svg></span>
+          </div>
+
+          <div class="mt-7 grid gap-4">
+            <label class="nf-field">
+              <span data-i18n="auth.email" class="nf-label">Email</span>
+              <input id="email" type="email" autocomplete="email" class="nf-input" placeholder="you@example.com" />
+            </label>
+            <label class="nf-field">
+              <span data-i18n="auth.password" class="nf-label">Password</span>
+              <input id="password" type="password" autocomplete="current-password" class="nf-input" placeholder="••••••••" />
+            </label>
+          </div>
+
+          <div class="mt-6 grid gap-3 sm:grid-cols-2">
+            <button id="btnLogin" type="button" data-i18n="auth.login" class="nf-btn nf-btn--primary nf-btn--lg">Log in</button>
+            <button id="btnSignup" type="button" data-i18n="auth.signup" class="nf-btn nf-btn--ghost nf-btn--lg">Sign up</button>
+          </div>
+
+          <div class="nf-divider my-6"></div>
+
+          <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+            <button id="btnForgotPassword" type="button" class="nf-link">
+              <svg class="i"><use href="#i-help"/></svg><span data-i18n="auth.forgot">Forgot password?</span>
+            </button>
+            <button id="btnDemoFill" type="button" class="nf-link">
+              <svg class="i"><use href="#i-play"/></svg><span data-i18n="auth.demo">Fill demo</span>
+            </button>
+            <a href="./delete.html" class="nf-link nf-link--danger">
+              <svg class="i"><use href="#i-trash"/></svg><span data-i18n="auth.delete">Delete my account</span>
+            </a>
+          </div>
+
+          <p data-i18n="auth.note" class="nf-faint mt-6 text-xs leading-relaxed">
+            All information kept is fully secure, nobody can view it. Not even administrators.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== DASHBOARD ============================== -->
+    <section id="viewApp" class="hidden">
+      <div class="grid gap-5">
+
+        <!-- Flame -->
+        <article class="nf-card nf-card--ember nf-rise overflow-hidden p-5 sm:p-8" style="--d:0">
+          <div class="grid items-center gap-7 md:grid-cols-[auto_minmax(0,1fr)] md:gap-10">
+            <div class="flex justify-center">
+              <div id="flameWrap" class="nf-flame" data-lit="false">
+                <svg class="nf-flame__ring" viewBox="0 0 200 200" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" class="nf-flame__ringstop-a"/>
+                      <stop offset="1" class="nf-flame__ringstop-b"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="nf-flame__ticks" cx="100" cy="100" r="97" pathLength="100"/>
+                  <circle class="nf-flame__track" cx="100" cy="100" r="88"/>
+                  <circle id="stageRing" class="nf-flame__progress" cx="100" cy="100" r="88" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+                </svg>
+                <div id="flameGlow" class="nf-flame__halo"></div>
+                <div class="nf-flame__floor"></div>
+                <svg id="flameSvg" class="nf-flame__svg" viewBox="0 0 100 120" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="outerFlameGrad" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse">
+                      <stop id="outerStop1" class="fl-o1" offset="0" stop-color="#475569"/>
+                      <stop id="outerStop2" class="fl-o2" offset="1" stop-color="#64748b"/>
+                    </linearGradient>
+                    <linearGradient id="innerFlameGrad" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse">
+                      <stop id="innerStop1" class="fl-i1" offset="0" stop-color="#94a3b8"/>
+                      <stop id="innerStop2" class="fl-i2" offset="1" stop-color="#cbd5e1"/>
+                    </linearGradient>
+                    <radialGradient id="coreFlameGrad" cx="50" cy="104" r="16" gradientUnits="userSpaceOnUse">
+                      <stop class="fl-c1" offset="0"/><stop class="fl-c2" offset="1"/>
+                    </radialGradient>
+                  </defs>
+                  <path class="fl-outer" fill="url(#outerFlameGrad)" d="M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z"/>
+                  <path class="fl-inner" fill="url(#innerFlameGrad)" opacity=".9" d="M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z"/>
+                  <path class="fl-core" fill="url(#coreFlameGrad)" d="M50 114 C41 114 35 108 36 99 C37 90 44 85 47 77 C54 83 62 91 62 100 C62 108 57 114 50 114 Z"/>
+                </svg>
+                <div class="nf-sparks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+            </div>
+
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                  <h2 data-i18n="flame.title" class="nf-title text-[26px] sm:text-[30px]">Your Flame</h2>
+                  <button id="btnFlameInfo" type="button" class="nf-close"
+                    data-i18n-attr="aria-label:flame.infoAria;title:flame.infoTitle"
+                    aria-label="Flame stages info" title="Flame stages">
+                    <svg class="i"><use href="#i-info"/></svg>
+                  </button>
+                </div>
+                <span id="stageChip" class="nf-stage" data-lit="false"><span class="nf-chip__dot"></span><span id="flameStage">—</span></span>
+              </div>
+              <p data-i18n="flame.sub" class="nf-muted mt-1.5 text-sm">Your little buddy who grows with time!</p>
+
+              <div class="mt-6" data-lit="false" id="clockWrap">
+                <div data-i18n="flame.elapsedLabel" class="nf-eyebrow mb-2.5">Time since start</div>
+                <div class="nf-clock" aria-hidden="true">
+                  <div class="nf-clock__seg"><span class="nf-clock__num" data-clock="d">00</span><span class="nf-clock__lbl" data-i18n="clock.days">days</span></div>
+                  <div class="nf-clock__seg"><span class="nf-clock__num" data-clock="h">00</span><span class="nf-clock__lbl" data-i18n="clock.hours">hours</span></div>
+                  <div class="nf-clock__seg"><span class="nf-clock__num" data-clock="m">00</span><span class="nf-clock__lbl" data-i18n="clock.minutes">minutes</span></div>
+                  <div class="nf-clock__seg"><span class="nf-clock__num" data-clock="s">00</span><span class="nf-clock__lbl" data-i18n="clock.seconds">seconds</span></div>
+                </div>
+                <div id="elapsed" class="sr-only">—</div>
+                <div id="startedAt" class="nf-faint mt-3 text-[13px]">—</div>
+              </div>
+
+              <div id="nextStageRow" class="mt-5 hidden">
+                <div class="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                  <span data-i18n="flame.nextLabel" class="nf-eyebrow">Next stage</span>
+                  <span id="nextStageText" class="nf-muted tnum text-[13px] font-semibold">—</span>
+                </div>
+                <div class="nf-progress"><div id="nextStageBar" class="nf-progress__bar"></div></div>
+              </div>
+
+              <div class="mt-5 grid grid-cols-3 gap-2.5">
+                <div class="nf-stat"><span data-i18n="stat.best" class="nf-stat__label">Best stage</span><span id="statBest" class="nf-stat__value">—</span></div>
+                <div class="nf-stat"><span data-i18n="stat.resets" class="nf-stat__label">Resets</span><span id="statResets" class="nf-stat__value tnum">0</span></div>
+                <div class="nf-stat"><span data-i18n="header.achievements" class="nf-stat__label">Achievements</span><span id="statAch" class="nf-stat__value tnum">0/6</span></div>
+              </div>
+
+              <div class="mt-6 grid grid-cols-2 gap-3">
+                <button id="btnStart" type="button" class="nf-btn nf-btn--primary nf-btn--lg">
+                  <svg class="i"><use href="#i-play"/></svg><span data-i18n="flame.start">Start</span>
+                </button>
+                <button id="btnFailed" type="button" class="nf-btn nf-btn--ghost nf-btn--lg">
+                  <svg class="i"><use href="#i-rotate"/></svg><span data-i18n="flame.failed">I failed</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button id="btnPanic" type="button" class="nf-panic mt-6 sm:mt-8">
+            <span class="nf-panic__icon"><svg class="i"><use href="#i-buoy"/></svg></span>
+            <span class="flex flex-col items-start text-left">
+              <span data-i18n="flame.panic" class="nf-panic__title">PANIC</span>
+              <span data-i18n="flame.panicSub" class="nf-panic__sub">Urge hitting? Tap now.</span>
+            </span>
+          </button>
+        </article>
+
+        <!-- Diary -->
+        <article class="nf-card nf-rise p-5 sm:p-8" style="--d:1">
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-book"/></svg></span>
+              <div>
+                <h2 data-i18n="diary.title" class="nf-title text-[24px]">Diary</h2>
+                <p data-i18n="diary.sub" class="nf-muted text-sm">Private notes. Short is fine.</p>
+              </div>
+            </div>
+            <button id="btnRefreshDiary" type="button" class="nf-btn nf-btn--ghost nf-btn--sm">
+              <svg class="i i--sm"><use href="#i-refresh"/></svg><span data-i18n="diary.refresh">Refresh</span>
+            </button>
+          </div>
+
+          <div class="mt-6 grid gap-6 lg:grid-cols-2 lg:gap-8">
+            <div>
+              <textarea id="diaryText" rows="6" class="nf-input"
+                data-i18n-attr="placeholder:diary.placeholder"
+                placeholder="What’s going on right now?"></textarea>
+              <div class="mt-3 flex flex-wrap gap-2.5">
+                <button id="btnAddEntry" type="button" class="nf-btn nf-btn--primary">
+                  <svg class="i"><use href="#i-plus"/></svg><span data-i18n="diary.add">Add entry</span>
+                </button>
+                <button id="btnClearText" type="button" data-i18n="diary.clear" class="nf-btn nf-btn--quiet">Clear</button>
+              </div>
+            </div>
+
+            <div class="min-w-0">
+              <div data-i18n="diary.recent" class="nf-eyebrow mb-3">Recent</div>
+              <div id="diaryList" class="nf-scroll max-h-[22rem] space-y-2.5 overflow-auto pr-1"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- iOS -->
+        <a href="./nfios.html" class="nf-card nf-rise group flex items-center gap-4 p-4 sm:p-5" style="--d:2">
+          <span class="nf-icon-tile"><svg class="i"><use href="#i-phone"/></svg></span>
+          <span data-i18n="ios.cta" class="flex-1 font-semibold">Get NeverFap on iOS</span>
+          <svg class="i nf-faint transition-transform duration-300 group-hover:translate-x-1"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+
+      <!-- ============================== MODALS ============================== -->
+
+      <!-- Flame stages -->
+      <div id="flameInfoModal" class="nf-modal nf-modal--sheet fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div id="flameInfoBackdrop" class="nf-modal__backdrop"></div>
+        <div class="nf-modal__panel nf-panel nf-scroll max-w-lg p-6 sm:p-7">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h3 data-i18n="flameInfo.title" class="nf-title text-2xl">Flame stages</h3>
+              <p data-i18n="flameInfo.sub" class="nf-muted mt-1 text-sm">Here’s how your flame evolves over time.</p>
+            </div>
+            <button id="btnCloseFlameInfo" type="button" class="nf-close"
+              data-i18n-attr="aria-label:flameInfo.close;title:flameInfo.close" aria-label="Close" title="Close">
+              <svg class="i"><use href="#i-x"/></svg>
+            </button>
+          </div>
+          <div id="flameInfoList" class="nf-timeline mt-6"></div>
+          <p data-i18n="flameInfo.footer" class="nf-faint mt-5 text-xs">
+            Your current stage is based on the time since you pressed Start.
+          </p>
+        </div>
+      </div>
+
+      <!-- Achievements -->
+      <div id="achievementsModal" class="nf-modal nf-modal--sheet fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div id="achievementsBackdrop" class="nf-modal__backdrop"></div>
+        <div class="nf-modal__panel nf-panel nf-scroll max-w-2xl p-6 sm:p-8">
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-trophy"/></svg></span>
+              <div>
+                <h3 data-i18n="ach.title" class="nf-title text-2xl">Achievements</h3>
+                <p data-i18n="ach.sub" class="nf-muted text-sm">Earn achievements by using the app.</p>
+              </div>
+            </div>
+            <button id="btnCloseAchievements" type="button" class="nf-close"
+              data-i18n-attr="aria-label:ach.close;title:ach.close" aria-label="Close" title="Close">
+              <svg class="i"><use href="#i-x"/></svg>
+            </button>
+          </div>
+
+          <div class="mt-6">
+            <div class="mb-2 flex items-center justify-between gap-3 text-[13px]">
+              <span id="achProgressText" class="nf-muted font-semibold">0 of 6 unlocked</span>
+              <span id="achProgressPct" class="nf-faint tnum font-semibold">0%</span>
+            </div>
+            <div class="nf-progress nf-progress--brand"><div id="achProgressBar" class="nf-progress__bar"></div></div>
+          </div>
+
+          <div class="mt-6 grid gap-3 sm:grid-cols-2">
+            <div class="achievement" data-key="grower" data-unlocked="false" style="animation-delay:0ms">
+              <span class="nf-ach__emoji">🌱</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2"><div data-i18n="ach.grower.title" class="font-bold leading-snug">Grower</div><div class="achIcon">🔒</div></div>
+                <div data-i18n="ach.grower.desc" class="nf-muted mt-1 text-[13px] leading-snug">Grow your flame once (Spark → Growing).</div>
+                <div class="achMeta nf-faint mt-2 text-[11.5px]"></div>
+              </div>
+            </div>
+            <div class="achievement" data-key="self_control" data-unlocked="false" style="animation-delay:50ms">
+              <span class="nf-ach__emoji">🛡️</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2"><div data-i18n="ach.self_control.title" class="font-bold leading-snug">You can stop this</div><div class="achIcon">🔒</div></div>
+                <div data-i18n="ach.self_control.desc" class="nf-muted mt-1 text-[13px] leading-snug">You pressed PANIC and interrupted the urge.</div>
+                <div class="achMeta nf-faint mt-2 text-[11.5px]"></div>
+              </div>
+            </div>
+            <div class="achievement" data-key="part_of_process" data-unlocked="false" style="animation-delay:100ms">
+              <span class="nf-ach__emoji">🔄</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2"><div data-i18n="ach.part_of_process.title" class="font-bold leading-snug">It’s a part of the process</div><div class="achIcon">🔒</div></div>
+                <div data-i18n="ach.part_of_process.desc" class="nf-muted mt-1 text-[13px] leading-snug">Fail your streak once.</div>
+                <div class="achMeta nf-faint mt-2 text-[11.5px]"></div>
+              </div>
+            </div>
+            <div class="achievement" data-key="never_back_down" data-unlocked="false" style="animation-delay:150ms">
+              <span class="nf-ach__emoji">🥊</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2"><div data-i18n="ach.never_back_down.title" class="font-bold leading-snug">Never back down never what?</div><div class="achIcon">🔒</div></div>
+                <div data-i18n="ach.never_back_down.desc" class="nf-muted mt-1 text-[13px] leading-snug">Fail 5 times.</div>
+                <div class="achMeta nf-faint mt-2 text-[11.5px]"></div>
+              </div>
+            </div>
+            <div class="achievement" data-key="month_clean" data-unlocked="false" style="animation-delay:200ms">
+              <span class="nf-ach__emoji">💚</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2"><div data-i18n="ach.month_clean.title" class="font-bold leading-snug">A month clean</div><div class="achIcon">🔒</div></div>
+                <div data-i18n="ach.month_clean.desc" class="nf-muted mt-1 text-[13px] leading-snug">Reach the Emerald Flame (30 days).</div>
+                <div class="achMeta nf-faint mt-2 text-[11.5px]"></div>
+              </div>
+            </div>
+            <div class="achievement" data-key="stronger_than_ever" data-unlocked="false" style="animation-delay:250ms">
+              <span class="nf-ach__emoji">🏆</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2"><div data-i18n="ach.stronger_than_ever.title" class="font-bold leading-snug">Stronger than ever</div><div class="achIcon">🔒</div></div>
+                <div data-i18n="ach.stronger_than_ever.desc" class="nf-muted mt-1 text-[13px] leading-snug">Reach the Platinum Flame (60 days).</div>
+                <div class="achMeta nf-faint mt-2 text-[11.5px]"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 grid gap-2">
+            <button id="btnSaveAchievements" type="button" data-i18n="ach.save" class="nf-btn nf-btn--primary nf-btn--lg nf-btn--block">Save achievements</button>
+            <p id="achSaveHint" data-i18n="ach.hint" class="nf-faint text-center text-xs">Manual save to prevent bugs.</p>
+          </div>
+
+          <p data-i18n="ach.tip" class="nf-faint mt-5 rounded-2xl p-3.5 text-xs leading-relaxed" style="background:rgba(0,0,0,.25);border:1px solid var(--line)">
+            Tip: Achievements do not save automatically, press save to ensure your progress being saved!
+          </p>
+        </div>
+      </div>
+
+      <!-- Panic -->
+      <div id="panicModal" class="nf-modal nf-modal--sheet fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div class="nf-modal__backdrop"></div>
+        <div class="nf-modal__panel nf-panel nf-panel--danger nf-scroll max-w-lg">
+          <div class="flex items-start justify-between gap-4 px-6 pt-6">
+            <div class="flex items-center gap-3.5">
+              <span class="nf-icon-tile nf-icon-tile--danger"><svg class="i"><use href="#i-buoy"/></svg></span>
+              <div>
+                <h3 data-i18n="panic.title" class="nf-title text-xl" style="color:#fee2e2">Panic Mode</h3>
+                <p data-i18n="panic.sub" class="text-sm" style="color:rgba(254,226,226,.62)">Stay with it. The urge passes.</p>
+              </div>
+            </div>
+            <button id="btnClosePanic" type="button" class="nf-close"
+              data-i18n-attr="aria-label:panic.close;title:panic.close" aria-label="Close" title="Close">
+              <svg class="i"><use href="#i-x"/></svg>
+            </button>
+          </div>
+
+          <div class="px-6 pt-5">
+            <div class="nf-tabs" role="tablist">
+              <button type="button" data-panic-tab="breathe" data-i18n="panic.tab.breathe" class="panic-tab">BREATHE</button>
+              <button type="button" data-panic-tab="challenge" data-i18n="panic.tab.challenge" class="panic-tab">CHALLENGE</button>
+              <button type="button" data-panic-tab="hits" data-i18n="panic.tab.hits" class="panic-tab">QUICK FIXES</button>
+            </div>
+          </div>
+
+          <div class="p-6">
+            <!-- Breathe -->
+            <div data-panic-panel="breathe" class="hidden">
+              <div class="flex flex-col items-center">
+                <div id="breathStage" class="nf-breath">
+                  <span class="nf-breath__ripple"></span><span class="nf-breath__ripple"></span><span class="nf-breath__ripple"></span>
+                  <div id="breathGlow"></div>
+                  <div id="breathRing"></div>
+                  <div id="breathCircle"></div>
+                  <div class="relative z-10 text-center">
+                    <div id="breathPhase" data-i18n="breath.ready" class="font-display text-xl font-extrabold tracking-tight text-white">Ready</div>
+                    <div id="breathCount" class="tnum mt-0.5 text-5xl font-black text-white">4</div>
+                  </div>
+                </div>
+                <p data-i18n="breath.help" class="nf-muted mt-3 max-w-xs text-center text-[13px] leading-relaxed">
+                  Box breathing. Follow the circle: in 4, hold 4, out 4, hold 4.
+                </p>
+                <p id="breathCycles" class="nf-chip mt-4">Cycles completed: 0</p>
+                <button id="btnBreathToggle" type="button" data-i18n="breath.start" class="nf-btn nf-btn--danger nf-btn--lg nf-btn--block mt-6">Start breathing</button>
+              </div>
+            </div>
+
+            <!-- Challenge -->
+            <div data-panic-panel="challenge" class="hidden">
+              <div id="challengePicker">
+                <p data-i18n="chal.pick" class="nf-muted text-sm">Pick one. Do it now, not later.</p>
+                <div id="challengeList" class="mt-4 grid gap-2"></div>
+              </div>
+
+              <div id="challengeRunner" class="hidden text-center">
+                <div id="challengeName" class="text-[15px] font-bold"></div>
+                <div class="relative mx-auto mt-5 h-52 w-52">
+                  <svg viewBox="0 0 120 120" class="h-full w-full -rotate-90" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="chalGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#ef4444"/></linearGradient>
+                    </defs>
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="7" />
+                    <circle id="challengeArc" cx="60" cy="60" r="52" fill="none" stroke="url(#chalGrad)" stroke-width="7"
+                      stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"
+                      style="filter:drop-shadow(0 0 6px rgba(239,68,68,.8));transition:stroke-dashoffset .25s linear" />
+                  </svg>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <div id="challengeTime" class="tnum text-5xl font-black">0:00</div>
+                    <div data-i18n="chal.remaining" class="nf-eyebrow mt-1.5">remaining</div>
+                  </div>
+                </div>
+                <button id="btnChallengeCancel" type="button" data-i18n="chal.giveup" class="nf-btn nf-btn--ghost nf-btn--lg nf-btn--block mt-6">Give up</button>
+              </div>
+
+              <div id="challengeDone" class="relative hidden overflow-hidden py-2 text-center">
+                <div class="nf-pop text-7xl">🔥</div>
+                <div data-i18n="chal.beat" class="nf-gradient-text mt-3 font-display text-3xl font-extrabold">You beat it.</div>
+                <p data-i18n="chal.beatSub" class="nf-muted mt-2 text-sm">The urge lost. Your flame is still burning.</p>
+                <button id="btnChallengeAgain" type="button" data-i18n="chal.again" class="nf-btn nf-btn--danger nf-btn--lg nf-btn--block mt-6">Another one</button>
+              </div>
+            </div>
+
+            <!-- Quick fixes -->
+            <div data-panic-panel="hits" class="hidden">
+              <p data-i18n="hits.help" class="nf-muted text-sm">Cheap dopamine that costs you nothing. Tap to mark done, tap again to undo.</p>
+              <div id="hitsList" class="mt-4 grid gap-2"></div>
+              <div class="mt-5 rounded-2xl p-4" style="background:rgba(0,0,0,.28);border:1px solid var(--line)">
+                <div data-i18n="hits.nothingTitle" class="text-sm font-bold">If nothing works:</div>
+                <ul class="nf-muted mt-3 space-y-2 text-[13.5px] leading-snug">
+                  <li class="flex gap-2.5"><span class="mt-[7px] h-1.5 w-1.5 flex-none rounded-full bg-red-400"></span><span data-i18n="hits.n1">Leave the room. Go outside, even for 60 seconds.</span></li>
+                  <li class="flex gap-2.5"><span class="mt-[7px] h-1.5 w-1.5 flex-none rounded-full bg-red-400"></span><span data-i18n="hits.n2">Put your phone in another room, screen down.</span></li>
+                  <li class="flex gap-2.5"><span class="mt-[7px] h-1.5 w-1.5 flex-none rounded-full bg-red-400"></span><span data-i18n="hits.n3">Open the diary and write the urge out in full.</span></li>
+                  <li class="flex gap-2.5"><span class="mt-[7px] h-1.5 w-1.5 flex-none rounded-full bg-red-400"></span><span data-i18n="hits.n4">Message someone. Anyone. Break the isolation.</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm reset -->
+      <div id="confirmFailedModal" class="nf-modal fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div id="confirmFailedBackdrop" class="nf-modal__backdrop"></div>
+        <div class="nf-modal__panel nf-panel max-w-sm p-6 text-center sm:p-7">
+          <span class="nf-icon-tile nf-icon-tile--danger mx-auto"><svg class="i"><use href="#i-rotate"/></svg></span>
+          <h3 data-i18n="fail.title" class="nf-title mt-4 text-[22px]">Reset your streak?</h3>
+          <p data-i18n="fail.body" class="nf-muted mt-2 text-sm leading-relaxed">This will clear your current flame and add a fail to your count. This can't be undone.</p>
+          <div class="mt-6 grid gap-2.5">
+            <button id="btnConfirmFailed" type="button" data-i18n="fail.yes" class="nf-btn nf-btn--danger nf-btn--lg">Yes, I failed</button>
+            <button id="btnCancelFailed" type="button" data-i18n="fail.cancel" class="nf-btn nf-btn--ghost nf-btn--lg">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global popup (admin broadcast) -->
+      <div id="globalPopupModal" class="nf-modal fixed inset-0 z-[70] hidden" role="dialog" aria-modal="true">
+        <div id="globalPopupBackdrop" class="nf-modal__backdrop"></div>
+        <div class="nf-modal__panel nf-panel max-w-lg p-6 sm:p-8">
+          <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-bell"/></svg></span>
+          <h3 id="globalPopupTitle" data-i18n="popup.defaultTitle" class="nf-title mt-4 text-2xl">Maintenance</h3>
+          <p id="globalPopupMessage" data-i18n="popup.defaultMsg" class="nf-muted mt-3 whitespace-pre-wrap text-[15px] leading-relaxed">Maintenance break soon!</p>
+          <button id="btnCloseGlobalPopup" type="button" data-i18n="popup.close" class="nf-btn nf-btn--ghost nf-btn--lg nf-btn--block mt-7">Close</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forgot password -->
+    <div id="forgotModal" class="nf-modal fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+      <div id="forgotBackdrop" class="nf-modal__backdrop"></div>
+      <div class="nf-modal__panel nf-panel max-w-xl p-6 sm:p-8">
+        <div class="flex items-start justify-between gap-4">
+          <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-mail"/></svg></span>
+          <button id="btnCloseForgot" type="button" class="nf-close"
+            data-i18n-attr="aria-label:forgot.close;title:forgot.close" aria-label="Close" title="Close">
+            <svg class="i"><use href="#i-x"/></svg>
+          </button>
+        </div>
+        <div data-i18n="forgot.line1" class="nf-title mt-5 text-2xl sm:text-3xl">Please send an email to</div>
+        <a href="mailto:neverfap@tommfr38.com" class="nf-gradient-text mt-3 block break-words font-display text-3xl font-extrabold tracking-tight sm:text-4xl">neverfap@tommfr38.com</a>
+        <div data-i18n="forgot.line2" class="nf-muted mt-4 text-sm leading-relaxed">With the email you signed up with. Responses range up to 72 hours.</div>
+      </div>
+    </div>
+
+    <!-- Bug report -->
+    <div id="bugReportModal" class="nf-modal fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+      <div id="bugReportBackdrop" class="nf-modal__backdrop"></div>
+      <div class="nf-modal__panel nf-panel max-w-md p-6 text-center sm:p-8">
+        <span class="nf-icon-tile nf-icon-tile--ember mx-auto"><svg class="i"><use href="#i-bug"/></svg></span>
+        <h3 data-i18n="bug.title" class="nf-title mt-4 text-2xl">Did someone say... bugs?</h3>
+        <p data-i18n="bug.sub" class="nf-muted mt-2 text-sm">To report bugs, press the button below</p>
+        <div class="mt-7 grid gap-2.5">
+          <a href="mailto:neverfap@tommfr38.com" class="nf-btn nf-btn--primary nf-btn--lg">
+            <svg class="i"><use href="#i-mail"/></svg><span data-i18n="bug.cta">Report bugs</span>
+          </a>
+          <button id="btnCloseBugReport" type="button" data-i18n="bug.close" class="nf-btn nf-btn--ghost nf-btn--lg">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="nf-faint mt-16 flex flex-col items-center gap-1.5 text-center text-[13px]">
+      <span data-i18n="footer.built">Built by Tomm for a healthier world.</span>
+      <button id="btnBugReport" type="button" data-i18n="footer.bugLink" class="nf-link underline decoration-dotted underline-offset-4">
+        Report bugs by clicking me!
+      </button>
+    </footer>
+  </main>
+</div>
+
+<div id="lastSavedText" data-i18n="footer.lastSavedEmpty" class="nf-saved pointer-events-none fixed bottom-4 right-4 z-30 max-sm:relative max-sm:bottom-auto max-sm:right-auto max-sm:mx-auto max-sm:mb-8 max-sm:flex max-sm:w-fit">
+  Last saved --:--:--
+</div>
+
+    <script>
+    (function () {
+      var duration = 5000 + Math.random() * 2000; // 5–7 s
+      var start = performance.now();
+      var total = 84;
+      var last = -1;
+      var procEl = document.getElementById('processorText');
+      var barEl  = document.getElementById('loadingBar');
+      var screen = document.getElementById('loadingScreen');
+
+      var crashScreen = document.getElementById('crashScreen');
+      var skipBtn     = document.getElementById('btnSkipLoad');
+      var finished    = false;
+
+      // 1-in-20 gag, only ever reachable by pressing Skip (see finish()).
+      var willCrash = Math.floor(Math.random() * 20) === 0;
+
+      // Tips — one of these three is picked per startup. Text comes from i18n.js.
+      var t = (window.NF_I18N && window.NF_I18N.t) || function (k) { return k; };
+      var tips = [
+        { label: t('load.tip1.label'), text: t('load.tip1.text') },
+        { label: t('load.tip2.label'), text: t('load.tip2.text') },
+        { label: t('load.tip3.label'), text: t('load.tip3.text') }
+      ];
+
+      var tipBox   = document.getElementById('loadingTip');
+      var tipLabel = document.getElementById('loadingTipLabel');
+      var tipText  = document.getElementById('loadingTipText');
+
+      // One random tip per startup.
+      if (tipBox && tipLabel && tipText) {
+        var tip = tips[Math.floor(Math.random() * tips.length)];
+        tipLabel.textContent = tip.label;
+        tipText.textContent  = tip.text;
+        setTimeout(function () { tipBox.style.opacity = '1'; }, 500);
+      }
+
+      function tick(now) {
+        var elapsed  = now - start;
+        var progress = Math.min(elapsed / duration, 1);
+        var eased    = 1 - Math.pow(1 - progress, 1.6); // ease-out
+        var count    = Math.floor(eased * total);
+
+        if (count !== last) {
+          last = count;
+          if (procEl) procEl.textContent = t('load.processors', { n: count });
+          if (barEl)  barEl.style.width  = (count / total * 100) + '%';
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          finish(false);
+        }
+      }
+
+      function showCrash() {
+        if (screen && screen.parentNode) screen.parentNode.removeChild(screen);
+        if (!crashScreen) return;
+        crashScreen.classList.remove('hidden');
+        crashScreen.classList.add('flex');
+      }
+
+      // viaSkip: the crash gag only fires when the user skipped. Letting the
+      // loader run to the end always loads the app normally.
+      function finish(viaSkip) {
+        if (finished) return;
+        finished = true;
+
+        if (procEl) procEl.textContent = t('load.processors', { n: total });
+        if (barEl)  barEl.style.width  = '100%';
+
+        setTimeout(function () {
+          if (willCrash && viaSkip === true) return showCrash();
+          if (!screen) return;
+          // Lift the curtain: fade + slight zoom, and release the page's
+          // entrance animations at the same moment.
+          document.body.classList.remove('is-loading');
+          screen.style.transition = 'opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1), filter 0.7s';
+          screen.style.opacity    = '0';
+          screen.style.transform  = 'scale(1.06)';
+          screen.style.filter     = 'blur(6px)';
+          setTimeout(function () { if (screen && screen.parentNode) screen.parentNode.removeChild(screen); }, 800);
+        }, 350);
+      }
+
+      // Pass true explicitly — the raw handler would hand finish() a click Event.
+      if (skipBtn) skipBtn.addEventListener('click', function () { finish(true); });
+
+      var crashReload = document.getElementById('btnCrashReload');
+      if (crashReload) crashReload.addEventListener('click', function () { window.location.reload(); });
+
+      requestAnimationFrame(tick);
+    })();
+    </script>
+
+    <!-- ===================== CLAWD 🦀 ===================== -->
+    <style>
+      /* walk right facing right, then walk back facing left */
+      @keyframes clawdWalk {
+        0%    { transform: translateX(0) scaleX(1); }
+        48%   { transform: translateX(82px) scaleX(1); }
+        50%   { transform: translateX(82px) scaleX(-1); }
+        98%   { transform: translateX(0) scaleX(-1); }
+        100%  { transform: translateX(0) scaleX(1); }
+      }
+      @keyframes clawdScuttle {
+        from { transform: translateY(0); }
+        to   { transform: translateY(-1.5px); }
+      }
+      @keyframes clawdJump {
+        0%   { transform: translateY(0) scale(1, 1); }
+        30%  { transform: translateY(-13px) scale(0.92, 1.08); }
+        60%  { transform: translateY(0) scale(1.06, 0.94); }
+        80%  { transform: translateY(-4px) scale(1, 1); }
+        100% { transform: translateY(0) scale(1, 1); }
+      }
+      #clawdWalker { animation: clawdWalk 9s linear infinite; }
+      #clawd { animation: clawdScuttle 0.18s ease-in-out infinite alternate; }
+      #clawd.clawd-jump { animation: clawdJump 0.55s ease; }
+      /* eyes squint to a line mid-jump, reopen on landing */
+      #clawd .clawdEye {
+        transform-box: fill-box;
+        transform-origin: center;
+        transition: transform 0.12s ease;
+      }
+      #clawd.clawd-jump .clawdEye { transform: scaleY(0.25); }
+      @media (prefers-reduced-motion: reduce) {
+        #clawdWalker, #clawd { animation: none; }
+      }
+    </style>
+
+    <!-- Clawd popup -->
+    <div id="clawdModal" class="nf-modal fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+      <div id="clawdBackdrop" class="nf-modal__backdrop"></div>
+      <div class="nf-modal__panel nf-panel max-w-sm p-6 text-left sm:p-7">
+        <svg width="64" height="55" viewBox="0 0 56 48" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" aria-hidden="true">
+          <path d="M6 4 H50 V16 H55 V25 H50 V34
+                   H46 V44 H40 V34 H37 V44 H31 V34 H25 V44 H19 V34 H16 V44 H10 V34 H6
+                   V25 H1 V16 H6 Z"
+                fill="#D0704F"/>
+          <rect x="14" y="12" width="7" height="8" fill="#141414"/>
+          <rect x="35" y="12" width="7" height="8" fill="#141414"/>
+        </svg>
+        <h2 data-i18n="clawd.title" class="nf-title mt-4 text-xl">Meet Clawd!</h2>
+        <p data-i18n-html="clawd.p1" class="nf-muted mt-2 text-sm leading-relaxed">
+          Clawd is the tiny mascot of <span class="font-semibold text-white/90">Claude Code</span>,
+          who helps build and maintain NeverFap behind the scenes.
+        </p>
+        <p data-i18n-html="clawd.p2" class="nf-muted mt-3 text-sm leading-relaxed">
+          He's running around celebrating
+          <span class="font-semibold text-orange-300">Fable 5</span>'s return after 19 days.
+          Fable 5 is Claude's strongest AI model, so strong that the government banned him. He returned a few days ago. Yay!
+        </p>
+        <button id="btnCloseClawd" type="button" data-i18n="clawd.close" class="nf-btn nf-btn--primary nf-btn--lg nf-btn--block mt-6">Neat 🧡</button>
+      </div>
+    </div>
+
+    <script>
+      // Clawd: click -> jump + popup
+      (function () {
+        var clawd = document.getElementById("clawd");
+        var modal = document.getElementById("clawdModal");
+        var backdrop = document.getElementById("clawdBackdrop");
+        var btnClose = document.getElementById("btnCloseClawd");
+        if (!clawd || !modal) return;
+
+        var fx = window.NF_FX;
+        function openModal() {
+          if (fx) return fx.openModal(modal);
+          modal.classList.remove("hidden");
+          modal.classList.add("flex");
+        }
+        function closeModal() {
+          if (fx) return fx.closeModal(modal);
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        }
+
+        clawd.addEventListener("click", function () {
+          clawd.classList.remove("clawd-jump");
+          // restart the jump animation even on rapid clicks
+          void clawd.offsetWidth;
+          clawd.classList.add("clawd-jump");
+          setTimeout(openModal, 380);
+        });
+        clawd.addEventListener("animationend", function (e) {
+          if (e.animationName === "clawdJump") clawd.classList.remove("clawd-jump");
+        });
+
+        btnClose.addEventListener("click", closeModal);
+        backdrop.addEventListener("click", closeModal);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeModal();
+        });
+      })();
+    </script>
+
+    <script>
+      // Type the secret word into the password field to open the local-only
+      // admin panel. admin.html is gitignored, so it only exists on the owner's
+      // machine; on the public site the fetch 404s and nothing happens (silent,
+      // so the secret word never reveals that a panel exists).
+      (function () {
+        var pass = document.getElementById("password");
+        if (!pass) return;
+
+        var SECRET = "excitedze";
+
+        pass.addEventListener("input", async function () {
+          if (pass.value !== SECRET) return;
+          try {
+            var res = await fetch("../admin.html", { cache: "no-store" });
+            if (res.ok) {
+              pass.value = "";
+              window.location.href = "../admin.html";
+            }
+          } catch (e) {}
+        });
+      })();
+    </script>
+    <script src="./app.js?v=5"></script>
+  </body>
+</html>

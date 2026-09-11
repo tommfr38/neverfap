@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title data-i18n="del.pageTitle">Delete Account • NeverFap</title>
+    <meta name="theme-color" content="#0a0503" />
+
+    <link rel="icon" type="image/png" href="../neverfapsmall.png" />
+    <link rel="apple-touch-icon" href="../neverfapsmall.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400..800&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./theme.css?v=2">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../config.js"></script>
+    <script src="./i18n.js?v=3"></script>
+    <script src="../maintenance-check.js?v=3" data-version="2.0.0"></script>
+    <script src="./fx.js?v=1"></script>
+  </head>
+
+  <body class="min-h-screen">
+
+    <!-- Icons live in the page itself: <use href="file.svg#…"> is blocked on file://
+         (and flaky elsewhere), same-document <use href="#…"> works everywhere. -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+    </svg>
+    <main class="mx-auto max-w-5xl px-5 pb-20 pt-8 sm:pt-12">
+      <header class="nf-rise flex items-center justify-between gap-4" style="--d:0">
+        <a href="./index.html" class="nf-btn nf-btn--ghost nf-btn--sm">
+          <svg class="i i--sm"><use href="#i-back"/></svg>
+          <span data-i18n="del.back">Back</span>
+        </a>
+        <!-- Language picker (i18n.js mounts the select in here) -->
+        <div data-nf-lang class="shrink-0"></div>
+      </header>
+
+      <div class="nf-rise mt-10 flex items-center gap-4" style="--d:1">
+        <span class="nf-icon-tile nf-icon-tile--danger"><svg class="i"><use href="#i-trash"/></svg></span>
+        <div>
+          <h1 data-i18n="del.title" class="nf-title text-3xl sm:text-4xl">Delete Account</h1>
+          <p data-i18n="del.sub" class="nf-muted mt-1 text-sm">Confirm your credentials to generate your deletion code.</p>
+        </div>
+      </div>
+
+      <section class="mt-10 grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
+        <div class="nf-rise" style="--d:2">
+          <div class="nf-card p-6 sm:p-8">
+            <h2 data-i18n="del.formTitle" class="nf-title text-xl">Re-enter your credentials</h2>
+
+            <div class="mt-6 grid gap-4">
+              <label class="nf-field">
+                <span data-i18n="auth.email" class="nf-label">Email</span>
+                <input id="delEmail" type="email" autocomplete="email" class="nf-input" placeholder="you@example.com" />
+              </label>
+              <label class="nf-field">
+                <span data-i18n="auth.password" class="nf-label">Password</span>
+                <input id="delPassword" type="password" autocomplete="current-password" class="nf-input" placeholder="••••••••" />
+              </label>
+            </div>
+
+            <button id="btnConfirmDelete" type="button" data-i18n="del.confirm" class="nf-btn nf-btn--danger nf-btn--lg nf-btn--block mt-6">Confirm</button>
+
+            <p id="deleteError" class="mt-4 hidden rounded-xl px-3.5 py-2.5 text-sm" style="color:#fecaca;background:rgba(239,68,68,.1);border:1px solid rgba(248,113,113,.3)"></p>
+          </div>
+        </div>
+
+        <!-- Revealed after a successful check -->
+        <div id="successPanel" class="lg:pt-4">
+          <div id="successTitle" data-i18n="del.okTitle" class="nf-pop nf-title hidden text-3xl sm:text-4xl">Correct credentials!</div>
+
+          <div id="successSubtitle" class="nf-rise nf-muted mt-3 hidden text-[15px] leading-relaxed" style="--d:1">
+            <span data-i18n="del.okSub">To delete your account, please send the following 6 digit code to</span>
+            <a href="mailto:neverfap@tommfr38.com" class="font-semibold underline decoration-dotted underline-offset-4" style="color:var(--ink)">neverfap@tommfr38.com</a>
+          </div>
+
+          <div id="successCode" class="nf-pop nf-gradient-text tnum mt-6 hidden font-display text-6xl font-extrabold tracking-[0.12em] sm:text-7xl" style="--d:2">
+            ------
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const supa = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+      const t = (k, params) => (window.NF_I18N ? window.NF_I18N.t(k, params) : k);
+
+      const emailInput = document.getElementById("delEmail");
+      const passInput = document.getElementById("delPassword");
+      const btn = document.getElementById("btnConfirmDelete");
+      const err = document.getElementById("deleteError");
+
+      const successTitle = document.getElementById("successTitle");
+      const successSubtitle = document.getElementById("successSubtitle");
+      const successCode = document.getElementById("successCode");
+
+      [emailInput, passInput].forEach((el) =>
+        el.addEventListener("keydown", (e) => { if (e.key === "Enter" && !btn.disabled) btn.click(); })
+      );
+
+      btn.addEventListener("click", async () => {
+        err.classList.add("hidden");
+        err.textContent = "";
+
+        const email = emailInput.value.trim();
+        const password = passInput.value;
+
+        if (!email || !password) {
+          err.textContent = t("del.errMissing");
+          err.classList.remove("hidden");
+          return;
+        }
+
+        btn.disabled = true;
+        try {
+          const { data, error } = await supa.auth.signInWithPassword({ email, password });
+
+          if (error || !data?.user) {
+            err.textContent = t("del.errInvalid");
+            err.classList.remove("hidden");
+            return;
+          }
+
+          const { data: profile, error: profileErr } = await supa
+            .from("profiles")
+            .select("user_cookie")
+            .eq("id", data.user.id)
+            .single();
+
+          if (profileErr || !profile?.user_cookie) {
+            err.textContent = t("del.errCode");
+            err.classList.remove("hidden");
+            return;
+          }
+
+          successTitle.classList.remove("hidden");
+          successSubtitle.classList.remove("hidden");
+          successCode.textContent = profile.user_cookie;
+          successCode.classList.remove("hidden");
+
+          await supa.auth.signOut();
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en" style="--ember-a:#a855f7;--ember-b:#c084fc;--flame-o1:#6366f1;--flame-o2:#a855f7;--flame-i1:#c084fc;--flame-i2:#e9d5ff">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>NeverFap</title>
+
+    <meta name="title" content="NeverFap" />
+    <meta name="description" content="A minimal, private tool to help quit porn. Grow your flame with time, reset when needed, and keep a private diary." />
+    <meta property="og:title" content="NeverFap" />
+    <meta property="og:description" content="Grow your flame by staying clean. Reset if you fail. Private diary. Calm control over time." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tomm101-bored.github.io/neverfap/" />
+    <meta property="og:image" content="../og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NeverFap" />
+    <meta name="twitter:description" content="A private flame-based tracker for quitting porn. Minimal. Persistent. Yours." />
+    <meta name="twitter:image" content="../og-image.png" />
+    <meta name="theme-color" content="#0a0503" />
+
+    <link rel="icon" type="image/png" href="../neverfapsmall.png" />
+    <link rel="apple-touch-icon" href="../neverfapsmall.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400..800&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./theme.css?v=2">
+
+    <!-- maintenance mode redirect -->
+    <script src="../config.js"></script>
+    <script src="./i18n.js?v=3"></script>
+    <script src="../maintenance-check.js?v=3" data-version="2.0.0"></script>
+    <script src="./fx.js?v=1"></script>
+  </head>
+
+  <body class="min-h-screen">
+
+    <!-- Icons live in the page itself: <use href="file.svg#…"> is blocked on file://
+         (and flaky elsewhere), same-document <use href="#…"> works everywhere. -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+      <symbol id="i-buoy" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2.5"/><path d="M12 18h.01"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+      <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    </svg>
+<div class="nf-page">
+  <header class="nf-header">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <div class="flex min-w-0 items-center gap-3">
+        <svg class="nf-logo" viewBox="0 0 100 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="lgO" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#dc2626"/><stop offset="1" stop-color="#fb923c"/></linearGradient>
+            <linearGradient id="lgN" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#fde68a"/></linearGradient>
+          </defs>
+          <path fill="url(#lgO)" d="M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z"/>
+          <path fill="url(#lgN)" d="M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z"/>
+        </svg>
+        <div class="min-w-0">
+          <h1 class="font-display text-[22px] font-extrabold leading-none tracking-tight">NeverFap</h1>
+          <p data-i18n="header.tagline" class="nf-faint mt-1 truncate text-[12.5px] max-sm:hidden">Be healthier, never fap.</p>
+        </div>
+      </div>
+
+      <div class="ml-auto flex flex-wrap items-center justify-end gap-2">
+        <div data-nf-lang class="flex"></div>
+        <span class="nf-faint text-[13px] max-md:hidden">demo@email.com</span>
+        <button id="btnAchievements" type="button" class="nf-btn nf-btn--ghost nf-btn--sm">
+          <svg class="i i--sm"><use href="#i-trophy"/></svg>
+          <span data-i18n="header.achievements" class="max-sm:hidden">Achievements</span>
+          <span class="nf-badge">2/6</span>
+        </button>
+        <a href="https://tommfr38.github.io/neverfap/" class="nf-btn nf-btn--quiet nf-btn--sm" data-i18n-attr="title:header.signout" title="Sign out">
+          <svg class="i i--sm"><use href="#i-logout"/></svg>
+          <span data-i18n="header.signout" class="max-sm:sr-only">Sign out</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 pb-24 pt-4 sm:px-6 sm:pt-8">
+    <div class="grid gap-5">
+      <!-- Flame (read-only snapshot) -->
+      <article class="nf-card nf-card--ember nf-rise overflow-hidden p-5 sm:p-8" style="--d:0">
+        <div class="grid items-center gap-7 md:grid-cols-[auto_minmax(0,1fr)] md:gap-10">
+          <div class="flex justify-center">
+            <div class="nf-flame" data-lit="true">
+              <svg class="nf-flame__ring" viewBox="0 0 200 200" aria-hidden="true">
+                <defs>
+                  <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="nf-flame__ringstop-a"/><stop offset="1" class="nf-flame__ringstop-b"/></linearGradient>
+                </defs>
+                <circle class="nf-flame__ticks" cx="100" cy="100" r="97" pathLength="100"/>
+                <circle class="nf-flame__track" cx="100" cy="100" r="88"/>
+                <circle class="nf-flame__progress" cx="100" cy="100" r="88" pathLength="100" stroke-dasharray="100" stroke-dashoffset="46"/>
+              </svg>
+              <div class="nf-flame__halo"></div>
+              <div class="nf-flame__floor"></div>
+              <svg class="nf-flame__svg" viewBox="0 0 100 120" aria-hidden="true">
+                <defs>
+                  <linearGradient id="dmO" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse"><stop class="fl-o1" offset="0"/><stop class="fl-o2" offset="1"/></linearGradient>
+                  <linearGradient id="dmN" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop class="fl-i1" offset="0"/><stop class="fl-i2" offset="1"/></linearGradient>
+                  <radialGradient id="dmC" cx="50" cy="104" r="16" gradientUnits="userSpaceOnUse"><stop class="fl-c1" offset="0"/><stop class="fl-c2" offset="1"/></radialGradient>
+                </defs>
+                <path class="fl-outer" fill="url(#dmO)" d="M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z"/>
+                <path class="fl-inner" fill="url(#dmN)" opacity=".9" d="M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z"/>
+                <path class="fl-core" fill="url(#dmC)" d="M50 114 C41 114 35 108 36 99 C37 90 44 85 47 77 C54 83 62 91 62 100 C62 108 57 114 50 114 Z"/>
+              </svg>
+              <div class="nf-sparks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-2.5">
+                <h2 data-i18n="flame.title" class="nf-title text-[26px] sm:text-[30px]">Your Flame</h2>
+                <button id="btnFlameInfo" type="button" class="nf-close"
+                  data-i18n-attr="aria-label:flame.infoAria;title:flame.infoTitle" aria-label="Flame stages info" title="Flame stages">
+                  <svg class="i"><use href="#i-info"/></svg>
+                </button>
+              </div>
+              <span class="nf-stage"><span class="nf-chip__dot"></span><span data-i18n="stage.amethyst">Amethyst Flame</span></span>
+            </div>
+            <p data-i18n="flame.sub" class="nf-muted mt-1.5 text-sm">Your little buddy who grows with time!</p>
+
+            <div class="mt-6">
+              <div data-i18n="flame.elapsedLabel" class="nf-eyebrow mb-2.5">Time since start</div>
+              <div class="nf-clock">
+                <div class="nf-clock__seg"><span class="nf-clock__num">14</span><span class="nf-clock__lbl" data-i18n="clock.days">days</span></div>
+                <div class="nf-clock__seg"><span class="nf-clock__num">13</span><span class="nf-clock__lbl" data-i18n="clock.hours">hours</span></div>
+                <div class="nf-clock__seg"><span class="nf-clock__num">33</span><span class="nf-clock__lbl" data-i18n="clock.minutes">minutes</span></div>
+                <div class="nf-clock__seg"><span class="nf-clock__num">08</span><span class="nf-clock__lbl" data-i18n="clock.seconds">seconds</span></div>
+              </div>
+              <div data-i18n="demo.startedAt" class="nf-faint mt-3 text-[13px]">Started: 1/4/2026, 16:53:14</div>
+            </div>
+
+            <div class="mt-5">
+              <div class="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                <span data-i18n="flame.nextLabel" class="nf-eyebrow">Next stage</span>
+                <span id="demoNext" class="nf-muted tnum text-[13px] font-semibold">Diamond Flame in 6d 10h</span>
+              </div>
+              <div class="nf-progress"><div class="nf-progress__bar" style="width:54%"></div></div>
+            </div>
+
+            <div class="mt-5 grid grid-cols-3 gap-2.5">
+              <div class="nf-stat"><span data-i18n="stat.best" class="nf-stat__label">Best stage</span><span data-i18n="stage.amethyst" class="nf-stat__value">Amethyst Flame</span></div>
+              <div class="nf-stat"><span data-i18n="stat.resets" class="nf-stat__label">Resets</span><span class="nf-stat__value tnum">1</span></div>
+              <div class="nf-stat"><span data-i18n="header.achievements" class="nf-stat__label">Achievements</span><span class="nf-stat__value tnum">2/6</span></div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 gap-3">
+              <button type="button" class="nf-btn nf-btn--primary nf-btn--lg" disabled data-i18n-attr="title:demo.readonly" title="Demo is read-only">
+                <svg class="i"><use href="#i-play"/></svg><span data-i18n="flame.start">Start</span>
+              </button>
+              <button type="button" class="nf-btn nf-btn--ghost nf-btn--lg" disabled data-i18n-attr="title:demo.readonly" title="Demo is read-only">
+                <svg class="i"><use href="#i-rotate"/></svg><span data-i18n="flame.failed">I failed</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="nf-panic mt-6 opacity-60 sm:mt-8" disabled data-i18n-attr="title:demo.readonly" title="Demo is read-only" style="cursor:not-allowed">
+          <span class="nf-panic__icon"><svg class="i"><use href="#i-buoy"/></svg></span>
+          <span class="flex flex-col items-start text-left">
+            <span data-i18n="flame.panic" class="nf-panic__title">PANIC</span>
+            <span data-i18n="flame.panicSub" class="nf-panic__sub">Urge hitting? Tap now.</span>
+          </span>
+        </button>
+      </article>
+
+      <!-- Diary -->
+      <article class="nf-card nf-rise p-5 sm:p-8" style="--d:1">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-book"/></svg></span>
+            <div>
+              <h2 data-i18n="diary.title" class="nf-title text-[24px]">Diary</h2>
+              <p data-i18n="diary.sub" class="nf-muted text-sm">Private notes. Short is fine.</p>
+            </div>
+          </div>
+          <button type="button" class="nf-btn nf-btn--ghost nf-btn--sm" disabled data-i18n-attr="title:demo.readonly" title="Demo is read-only">
+            <svg class="i i--sm"><use href="#i-refresh"/></svg><span data-i18n="diary.refresh">Refresh</span>
+          </button>
+        </div>
+
+        <div class="mt-6 grid gap-6 lg:grid-cols-2 lg:gap-8">
+          <div>
+            <textarea rows="6" class="nf-input" disabled data-i18n="demo.diaryText">Hello! This is the Demo account which cannot be modified. To get your own account, press sign out and log into your own account!</textarea>
+            <div class="mt-3 flex flex-wrap gap-2.5">
+              <button type="button" class="nf-btn nf-btn--primary" disabled data-i18n-attr="title:demo.readonly" title="Demo is read-only">
+                <svg class="i"><use href="#i-plus"/></svg><span data-i18n="diary.add">Add entry</span>
+              </button>
+              <button type="button" data-i18n="diary.clear" class="nf-btn nf-btn--quiet" disabled data-i18n-attr="title:demo.readonly" title="Demo is read-only">Clear</button>
+            </div>
+          </div>
+          <div class="min-w-0">
+            <div data-i18n="diary.recent" class="nf-eyebrow mb-3">Recent</div>
+            <div class="nf-empty">
+              <svg class="i"><use href="#i-lock"/></svg>
+              <span data-i18n="demo.diaryEmpty">Demo account — entries are disabled.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <a href="./nfios.html" class="nf-card nf-rise group flex items-center gap-4 p-4 sm:p-5" style="--d:2">
+        <span class="nf-icon-tile"><svg class="i"><use href="#i-phone"/></svg></span>
+        <span data-i18n="ios.cta" class="flex-1 font-semibold">Get NeverFap on iOS</span>
+        <svg class="i nf-faint transition-transform duration-300 group-hover:translate-x-1"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
+
+    <footer data-i18n="demo.footer" class="nf-faint mt-16 text-center text-[13px]">
+      Built by Tomm for a healthier world. Any bugs can be DM-ed to me on tiktok @tommfr38
+    </footer>
+  </main>
+</div>
+
+    <!-- Achievements (demo) -->
+    <div id="achievementsModal" class="nf-modal nf-modal--sheet fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+      <div id="achievementsBackdrop" class="nf-modal__backdrop"></div>
+      <div class="nf-modal__panel nf-panel nf-scroll max-w-2xl p-6 sm:p-8">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-trophy"/></svg></span>
+            <div>
+              <h3 data-i18n="ach.title" class="nf-title text-2xl">Achievements</h3>
+              <p data-i18n="demo.achSub" class="nf-muted text-sm">Demo preview (read-only).</p>
+            </div>
+          </div>
+          <button id="btnCloseAchievements" type="button" class="nf-close" data-i18n-attr="aria-label:ach.close;title:ach.close" aria-label="Close" title="Close">
+            <svg class="i"><use href="#i-x"/></svg>
+          </button>
+        </div>
+
+        <div class="mt-6">
+          <div class="mb-2 flex items-center justify-between gap-3 text-[13px]">
+            <span id="demoAchProgress" class="nf-muted font-semibold">2 of 6 unlocked</span>
+            <span class="nf-faint tnum font-semibold">33%</span>
+          </div>
+          <div class="nf-progress nf-progress--brand"><div class="nf-progress__bar" style="width:33.3%"></div></div>
+        </div>
+
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <div class="achievement" data-unlocked="true">
+            <span class="nf-ach__emoji">🌱</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-2"><div data-i18n="ach.grower.title" class="font-bold leading-snug">Grower</div><div class="achIcon">✅</div></div>
+              <div data-i18n="ach.grower.desc" class="nf-muted mt-1 text-[13px] leading-snug">Grow your flame once (Spark → Growing).</div>
+              <div data-i18n="demo.unlocked1" class="achMeta nf-faint mt-2 text-[11.5px]">Unlocked: 1/5/2026, 08:21</div>
+            </div>
+          </div>
+          <div class="achievement" data-unlocked="true" style="animation-delay:50ms">
+            <span class="nf-ach__emoji">🔄</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-2"><div data-i18n="ach.part_of_process.title" class="font-bold leading-snug">It’s a part of the process</div><div class="achIcon">✅</div></div>
+              <div data-i18n="ach.part_of_process.desc" class="nf-muted mt-1 text-[13px] leading-snug">Fail your streak once.</div>
+              <div data-i18n="demo.unlocked2" class="achMeta nf-faint mt-2 text-[11.5px]">Unlocked: 1/7/2026, 19:02</div>
+            </div>
+          </div>
+          <div class="achievement" data-unlocked="false" style="animation-delay:100ms">
+            <span class="nf-ach__emoji">🛡️</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-2"><div data-i18n="ach.self_control.title" class="font-bold leading-snug">You can stop this</div><div class="achIcon">🔒</div></div>
+              <div data-i18n="ach.self_control.desc" class="nf-muted mt-1 text-[13px] leading-snug">You pressed PANIC and interrupted the urge.</div>
+            </div>
+          </div>
+          <div class="achievement" data-unlocked="false" style="animation-delay:150ms">
+            <span class="nf-ach__emoji">🥊</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-2"><div data-i18n="ach.never_back_down.title" class="font-bold leading-snug">Never back down never what?</div><div class="achIcon">🔒</div></div>
+              <div data-i18n="ach.never_back_down.desc" class="nf-muted mt-1 text-[13px] leading-snug">Fail 5 times.</div>
+            </div>
+          </div>
+          <div class="achievement" data-unlocked="false" style="animation-delay:200ms">
+            <span class="nf-ach__emoji">💚</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-2"><div data-i18n="ach.month_clean.title" class="font-bold leading-snug">A month clean</div><div class="achIcon">🔒</div></div>
+              <div data-i18n="ach.month_clean.desc" class="nf-muted mt-1 text-[13px] leading-snug">Reach the Emerald Flame (30 days).</div>
+            </div>
+          </div>
+          <div class="achievement" data-unlocked="false" style="animation-delay:250ms">
+            <span class="nf-ach__emoji">🏆</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-2"><div data-i18n="ach.stronger_than_ever.title" class="font-bold leading-snug">Stronger than ever</div><div class="achIcon">🔒</div></div>
+              <div data-i18n="ach.stronger_than_ever.desc" class="nf-muted mt-1 text-[13px] leading-snug">Reach the Platinum Flame (60 days).</div>
+            </div>
+          </div>
+        </div>
+
+        <p data-i18n="demo.achNote" class="nf-faint mt-6 rounded-2xl p-3.5 text-xs leading-relaxed" style="background:rgba(0,0,0,.25);border:1px solid var(--line)">
+          This is a demo preview. Achievements are shown only — they can’t be changed here.
+        </p>
+      </div>
+    </div>
+
+    <!-- Flame stages (demo) -->
+    <div id="flameInfoModal" class="nf-modal nf-modal--sheet fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+      <div id="flameInfoBackdrop" class="nf-modal__backdrop"></div>
+      <div class="nf-modal__panel nf-panel nf-scroll max-w-lg p-6 sm:p-7">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 data-i18n="flameInfo.title" class="nf-title text-2xl">Flame stages</h3>
+            <p data-i18n="demo.flameSub" class="nf-muted mt-1 text-sm">How your flame evolves over time.</p>
+          </div>
+          <button id="btnCloseFlameInfo" type="button" class="nf-close" data-i18n-attr="aria-label:flameInfo.close;title:flameInfo.close" aria-label="Close" title="Close">
+            <svg class="i"><use href="#i-x"/></svg>
+          </button>
+        </div>
+        <div id="demoTimeline" class="nf-timeline mt-6"></div>
+        <p data-i18n="demo.flameNote" class="nf-faint mt-5 text-xs">Demo preview — real stages update live in your account.</p>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var fx = window.NF_FX;
+        var I = window.NF_I18N;
+        var t = function (k, p) { return I ? I.t(k, p) : k; };
+        var open = function (el) { if (fx) return fx.openModal(el); el.classList.remove("hidden"); el.classList.add("flex"); };
+        var close = function (el) { if (fx) return fx.closeModal(el); el.classList.add("hidden"); el.classList.remove("flex"); };
+
+        var ach = document.getElementById("achievementsModal");
+        var info = document.getElementById("flameInfoModal");
+        document.getElementById("btnAchievements").addEventListener("click", function () { open(ach); });
+        document.getElementById("btnCloseAchievements").addEventListener("click", function () { close(ach); });
+        document.getElementById("achievementsBackdrop").addEventListener("click", function () { close(ach); });
+        document.getElementById("btnFlameInfo").addEventListener("click", function () { open(info); });
+        document.getElementById("btnCloseFlameInfo").addEventListener("click", function () { close(info); });
+        document.getElementById("flameInfoBackdrop").addEventListener("click", function () { close(info); });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape") { close(ach); close(info); } });
+
+        // Static snapshot: 14 d 13 h 33 min in → Amethyst Flame (7–21 days).
+        var STAGES = [
+          ["stage.unlit", "range.unlit", ["#475569", "#64748b"], ["#94a3b8", "#cbd5e1"]],
+          ["stage.spark", "range.spark", ["#f97316", "#fbbf24"], ["#fde047", "#fef9c3"]],
+          ["stage.growing", "range.growing", ["#dc2626", "#f97316"], ["#fb923c", "#fde047"]],
+          ["stage.ruby", "range.ruby", ["#9333ea", "#ef4444"], ["#f87171", "#fca5a5"]],
+          ["stage.amethyst", "range.amethyst", ["#6366f1", "#a855f7"], ["#c084fc", "#e9d5ff"]],
+          ["stage.diamond", "range.diamond", ["#2563eb", "#06b6d4"], ["#67e8f9", "#cffafe"]],
+          ["stage.emerald", "range.emerald", ["#16a34a", "#84cc16"], ["#86efac", "#d9f99d"]],
+          ["stage.platinum", "range.platinum", ["#7dc3e4", "#86d9fc"], ["#caedff", "#ddf1ff"]]
+        ];
+        var CURRENT = 4;
+        var OUTER = "M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z";
+        var INNER = "M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z";
+        var tag = function (key, cls) { return '<span class="nf-tl-tag ' + cls + '">' + t(key).replace(/[()]/g, "") + "</span>"; };
+
+        function render() {
+          document.getElementById("demoTimeline").innerHTML = STAGES.map(function (s, i) {
+            var state = i === CURRENT ? "is-current" : i < CURRENT ? "is-past" : "is-future";
+            var tags = i === CURRENT ? tag("flameInfo.current", "nf-tl-tag--current") + tag("flameInfo.best", "nf-tl-tag--best") : "";
+            return '<div class="nf-tl-row ' + state + '" style="--i:' + i + '">' +
+              '<div class="nf-tl-swatch"><svg viewBox="0 0 100 120" aria-hidden="true"><defs>' +
+              '<linearGradient id="dso' + i + '" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + s[2][0] + '"/><stop offset="1" stop-color="' + s[2][1] + '"/></linearGradient>' +
+              '<linearGradient id="dsi' + i + '" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + s[3][0] + '"/><stop offset="1" stop-color="' + s[3][1] + '"/></linearGradient>' +
+              '</defs><path fill="url(#dso' + i + ')" d="' + OUTER + '"/><path fill="url(#dsi' + i + ')" opacity=".9" d="' + INNER + '"/></svg></div>' +
+              '<div class="min-w-0"><div class="nf-tl-name">' + t(s[0]) + "</div>" + (tags ? '<div class="mt-1 flex flex-wrap gap-1.5">' + tags + "</div>" : "") + "</div>" +
+              '<div class="nf-tl-range">' + t(s[1]) + "</div></div>";
+          }).join("");
+
+          // 21 d − (14 d 13 h 33 min) ≈ 6 d 10 h
+          document.getElementById("demoNext").textContent =
+            t("flame.nextIn", { stage: t("stage.diamond"), time: "6" + t("dur.d") + " 10" + t("dur.h") });
+          document.getElementById("demoAchProgress").textContent = t("ach.progress", { n: 2, total: 6 });
+        }
+
+        render();
+        if (I) I.onChange(render);
+      })();
+    </script>
+  </body>
+</html>

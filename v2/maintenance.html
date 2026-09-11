@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title data-i18n="maint.pageTitle">NeverFap • Maintenance</title>
+    <meta name="theme-color" content="#0a0503" />
+    <link rel="icon" type="image/png" href="../neverfapsmall.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400..800&display=swap">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./theme.css?v=2">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../config.js"></script>
+    <script src="./i18n.js?v=3"></script>
+    <script src="./fx.js?v=1"></script>
+
+    <style>
+      /* A slow, sleepy flame while the site is down */
+      .maint-flame .nf-flame__svg .fl-outer,
+      .maint-flame .nf-flame__svg .fl-inner,
+      .maint-flame .nf-flame__svg .fl-core { animation-duration: 5s, 5s, 5s; }
+      .maint-badge {
+        position: absolute; right: 10%; bottom: 14%;
+        display: grid; place-items: center; width: 46px; height: 46px; border-radius: 15px;
+        color: var(--brand-ink);
+        background: linear-gradient(180deg, #ffc978, var(--brand-a));
+        box-shadow: 0 0 0 5px var(--bg), 0 12px 30px -10px rgba(249, 115, 22, 0.9);
+        animation: wobble 3.5s var(--ease-in-out) infinite;
+      }
+      @keyframes wobble { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+    </style>
+  </head>
+
+  <body class="min-h-screen">
+
+    <!-- Icons live in the page itself: <use href="file.svg#…"> is blocked on file://
+         (and flaky elsewhere), same-document <use href="#…"> works everywhere. -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+      <symbol id="i-key" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r="1" fill="currentColor"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    </svg>
+    <!-- Language picker (i18n.js mounts the select in here) -->
+    <div data-nf-lang class="fixed right-4 top-4 z-40"></div>
+
+    <main class="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 py-16 text-center">
+      <div class="nf-pop relative" style="--d:0">
+        <div class="nf-flame maint-flame" data-lit="true" style="--size:190px">
+          <svg class="nf-flame__ring" viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="nf-flame__ticks" cx="100" cy="100" r="97" pathLength="100"/>
+            <circle class="nf-flame__track" cx="100" cy="100" r="88"/>
+          </svg>
+          <div class="nf-flame__halo"></div>
+          <div class="nf-flame__floor"></div>
+          <svg class="nf-flame__svg" viewBox="0 0 100 120" aria-hidden="true">
+            <defs>
+              <linearGradient id="mtO" x1="50" y1="118" x2="50" y2="4" gradientUnits="userSpaceOnUse"><stop class="fl-o1" offset="0"/><stop class="fl-o2" offset="1"/></linearGradient>
+              <linearGradient id="mtN" x1="50" y1="115" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop class="fl-i1" offset="0"/><stop class="fl-i2" offset="1"/></linearGradient>
+              <radialGradient id="mtC" cx="50" cy="104" r="16" gradientUnits="userSpaceOnUse"><stop class="fl-c1" offset="0"/><stop class="fl-c2" offset="1"/></radialGradient>
+            </defs>
+            <path class="fl-outer" fill="url(#mtO)" d="M50 118 C25 118 9 101 10 79 C11 60 24 49 30 34 C34 24 33 14 29 4 C43 10 55 22 59 36 C62 29 63 22 61 14 C76 26 91 49 90 77 C89 101 74 118 50 118 Z"/>
+            <path class="fl-inner" fill="url(#mtN)" opacity=".9" d="M50 115 C34 115 24 104 25 89 C26 75 36 68 40 56 C42 50 42 44 39 37 C51 43 59 54 60 65 C62 60 63 56 62 50 C71 60 76 74 75 89 C74 104 64 115 50 115 Z"/>
+            <path class="fl-core" fill="url(#mtC)" d="M50 114 C41 114 35 108 36 99 C37 90 44 85 47 77 C54 83 62 91 62 100 C62 108 57 114 50 114 Z"/>
+          </svg>
+          <div class="nf-sparks"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <span class="maint-badge"><svg class="i"><use href="#i-wrench"/></svg></span>
+      </div>
+
+      <!-- Title (editable via admin panel -> Site Management: maint_title) -->
+      <h1 id="maintTitle" data-i18n="maint.title" class="nf-rise nf-gradient-text mt-10 font-display text-4xl font-extrabold tracking-tight sm:text-5xl" style="--d:1">
+        Maintenance Break!
+      </h1>
+
+      <!-- Subtitle (maint_subtitle) -->
+      <p id="maintSubtitle" data-i18n="maint.sub" class="nf-rise nf-muted mt-5 max-w-md text-[16px] leading-relaxed" style="--d:2">
+        NeverFap is offline while there are changes being made that may break the website. We will be back online soon!
+      </p>
+
+      <!-- Developer Note (maint_note) -->
+      <p id="maintNote" data-i18n="maint.note" class="nf-rise nf-faint mt-3 max-w-md text-sm" style="--d:3">
+        I will be back soon!
+      </p>
+
+      <!-- Refresh (normal click retries the site; hold 3s for admin bypass) -->
+      <button
+        id="btnRefresh"
+        type="button"
+        style="-webkit-touch-callout: none; -webkit-user-select: none; user-select: none; --d:4"
+        class="nf-rise nf-btn nf-btn--primary nf-btn--lg mt-9 min-w-[11rem]"
+      >
+        <svg class="i"><use href="#i-refresh"/></svg>
+        <span id="maintButtonLabel" data-i18n="maint.button">Refresh</span>
+      </button>
+
+      <!-- Small footer (maint_footer) -->
+      <p id="maintFooter" data-i18n="maint.footer" class="nf-rise nf-faint mt-12 text-xs" style="--d:5">
+        Thanks for your patience ❤️
+      </p>
+    </main>
+
+    <!-- ===================== ADMIN BYPASS MODAL ===================== -->
+    <div id="bypassModal" class="nf-modal fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+      <div id="bypassBackdrop" class="nf-modal__backdrop"></div>
+      <div class="nf-modal__panel nf-panel max-w-sm p-6 text-left sm:p-7">
+        <!-- Step 1: sign in -->
+        <div id="bypassLoginView">
+          <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-key"/></svg></span>
+          <h2 data-i18n="maint.adminTitle" class="nf-title mt-4 text-xl">Admin access</h2>
+          <p data-i18n="maint.adminSub" class="nf-muted mt-1 text-sm">Sign in to bypass the maintenance break.</p>
+
+          <div class="mt-5 grid gap-3">
+            <input id="bypassEmail" type="email" placeholder="Email" autocomplete="off"
+              data-i18n-attr="placeholder:auth.email" class="nf-input" />
+            <input id="bypassPassword" type="password" placeholder="Password" autocomplete="off"
+              data-i18n-attr="placeholder:auth.password" class="nf-input" />
+          </div>
+
+          <p id="bypassError" class="mt-3 hidden text-sm" style="color:#fca5a5"></p>
+
+          <div class="mt-5 grid grid-cols-[1fr_auto] gap-2.5">
+            <button id="btnBypassLogin" type="button" data-i18n="maint.enter" class="nf-btn nf-btn--primary nf-btn--lg">Enter</button>
+            <button id="btnBypassCancel" type="button" data-i18n="maint.cancel" class="nf-btn nf-btn--ghost nf-btn--lg">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Step 2: choose where to go (bypass carried via ?nfbp=1) -->
+        <div id="bypassDestView" class="hidden">
+          <span class="nf-icon-tile" style="color:var(--success)"><svg class="i"><use href="#i-shield"/></svg></span>
+          <h2 data-i18n="maint.inTitle" class="nf-title mt-4 text-xl">You're in ✅</h2>
+          <p data-i18n="maint.inSub" class="nf-muted mt-1 text-sm">Maintenance bypass active. Where do you want to go?</p>
+
+          <div class="mt-5 grid gap-2.5">
+            <button id="btnGoLive" type="button" class="nf-btn nf-btn--primary nf-btn--lg">
+              tommfr38.com
+            </button>
+            <button id="btnGoLocal" type="button" class="nf-btn nf-btn--ghost nf-btn--lg">
+              http://127.0.0.1:5500/
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Load editable texts from site_settings (managed in the admin panel's
+      // Site Management tab). Missing/empty values keep the built-in defaults.
+      (function () {
+        if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) return;
+
+        fetch(window.SUPABASE_URL + "/rest/v1/site_settings?select=*&id=eq.1", {
+          headers: {
+            apikey: window.SUPABASE_ANON_KEY,
+            Authorization: "Bearer " + window.SUPABASE_ANON_KEY,
+          },
+          cache: "no-store",
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (rows) {
+            var s = rows && rows[0];
+            if (!s) return;
+            var map = {
+              maint_title: "maintTitle",
+              maint_subtitle: "maintSubtitle",
+              maint_note: "maintNote",
+              maint_footer: "maintFooter",
+              maint_button: "maintButtonLabel",
+            };
+            Object.keys(map).forEach(function (col) {
+              var val = s[col];
+              var el = document.getElementById(map[col]);
+              if (el && typeof val === "string" && val.trim() !== "") {
+                // Admin-authored copy replaces the translation for good — drop
+                // the key so a later language switch can't overwrite it.
+                el.removeAttribute("data-i18n");
+                el.textContent = val;
+              }
+            });
+          })
+          .catch(function () {});
+      })();
+    </script>
+
+    <script>
+      (function () {
+        // Only the admin account may bypass maintenance.
+        var ADMIN_EMAIL = "admin@email.com";
+
+        var t = function (k, params) {
+          return window.NF_I18N ? window.NF_I18N.t(k, params) : k;
+        };
+
+        var supa =
+          window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY
+            ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+            : null;
+
+        var btn = document.getElementById("btnRefresh");
+        var modal = document.getElementById("bypassModal");
+        var backdrop = document.getElementById("bypassBackdrop");
+        var emailEl = document.getElementById("bypassEmail");
+        var passEl = document.getElementById("bypassPassword");
+        var errEl = document.getElementById("bypassError");
+        var btnLogin = document.getElementById("btnBypassLogin");
+        var btnCancel = document.getElementById("btnBypassCancel");
+        var loginView = document.getElementById("bypassLoginView");
+        var destView = document.getElementById("bypassDestView");
+        var btnGoLive = document.getElementById("btnGoLive");
+        var btnGoLocal = document.getElementById("btnGoLocal");
+
+        function openModal() {
+          errEl.classList.add("hidden");
+          emailEl.value = "";
+          passEl.value = "";
+          // always start on the sign-in step
+          loginView.classList.remove("hidden");
+          destView.classList.add("hidden");
+          if (window.NF_FX) window.NF_FX.openModal(modal);
+          else { modal.classList.remove("hidden"); modal.classList.add("flex"); }
+          emailEl.focus();
+        }
+        function closeModal() {
+          if (window.NF_FX) return window.NF_FX.closeModal(modal);
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        }
+
+        // ----- Hold 3s -> admin bypass.  Normal click -> retry the site. -----
+        var HOLD_MS = 3000;
+        var timer = null;
+        var holdFired = false;
+
+        function startHold() {
+          holdFired = false;
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            holdFired = true;
+            openModal();
+          }, HOLD_MS);
+        }
+        function cancelHold() {
+          clearTimeout(timer);
+          timer = null;
+        }
+
+        btn.addEventListener("pointerdown", startHold);
+        btn.addEventListener("pointerup", cancelHold);
+        btn.addEventListener("pointerleave", cancelHold);
+        btn.addEventListener("pointercancel", cancelHold);
+
+        btn.addEventListener("click", function () {
+          if (holdFired) {
+            // a completed hold already opened the modal — don't navigate away
+            holdFired = false;
+            return;
+          }
+          window.location.href = "https://tommfr38.com/neverfap/";
+        });
+
+        // ----- Bypass login -----
+        async function doBypass() {
+          errEl.classList.add("hidden");
+          var email = (emailEl.value || "").trim().toLowerCase();
+          var password = passEl.value || "";
+
+          // Any account other than the admin is rejected outright.
+          if (email !== ADMIN_EMAIL) {
+            errEl.textContent = t("maint.notAdmin");
+            errEl.classList.remove("hidden");
+            return;
+          }
+          if (!supa) {
+            errEl.textContent = t("maint.authUnavailable");
+            errEl.classList.remove("hidden");
+            return;
+          }
+
+          btnLogin.disabled = true;
+          var prev = btnLogin.textContent;
+          btnLogin.textContent = t("maint.checking");
+          try {
+            var res = await supa.auth.signInWithPassword({ email: email, password: password });
+            if (res.error || !res.data || !res.data.user) {
+              errEl.textContent = t("maint.invalid");
+              errEl.classList.remove("hidden");
+              return;
+            }
+            // Signed in as the admin — flag the bypass and offer destinations.
+            try { sessionStorage.setItem("nf_maint_bypass", "1"); } catch (e) {}
+            loginView.classList.add("hidden");
+            destView.classList.remove("hidden");
+          } catch (e2) {
+            errEl.textContent = t("maint.invalid");
+            errEl.classList.remove("hidden");
+          } finally {
+            btnLogin.disabled = false;
+            btnLogin.textContent = prev;
+          }
+        }
+
+        btnLogin.addEventListener("click", doBypass);
+        passEl.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") doBypass();
+        });
+
+        // Destination buttons. The ?nfbp=1 flag carries the bypass across
+        // origins (sessionStorage doesn't cross tommfr38.com <-> 127.0.0.1).
+        btnGoLive.addEventListener("click", function () {
+          window.location.href = "https://tommfr38.com/neverfap/?nfbp=1";
+        });
+        btnGoLocal.addEventListener("click", function () {
+          window.location.href = "http://127.0.0.1:5500/?nfbp=1";
+        });
+        btnCancel.addEventListener("click", closeModal);
+        backdrop.addEventListener("click", closeModal);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeModal();
+        });
+      })();
+    </script>
+  </body>
+</html>
