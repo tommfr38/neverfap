@@ -350,16 +350,60 @@ function getStageInfoRows() {
     bugReportModal.classList.remove("flex");
   }
 
-  function openGlobalPopup(title, message) {
+  // Optional read timer: the admin can lock the popup's Close button for a few
+  // seconds so an announcement is actually read. 0 (or empty) = off.
+  let popupLockTimer = null;
+  let popupLockRemaining = 0;
+  let popupLocked = false;
+  let shownGlobalPopupKey = null;
+
+  function renderGlobalPopupButton() {
+    if (!btnCloseGlobalPopup) return;
+    btnCloseGlobalPopup.disabled = popupLocked;
+    btnCloseGlobalPopup.classList.toggle("opacity-60", popupLocked);
+    btnCloseGlobalPopup.classList.toggle("cursor-not-allowed", popupLocked);
+    btnCloseGlobalPopup.textContent = popupLocked
+      ? t("popup.closeIn", { n: popupLockRemaining })
+      : t("popup.close");
+  }
+
+  function stopGlobalPopupLock() {
+    clearInterval(popupLockTimer);
+    popupLockTimer = null;
+    popupLocked = false;
+    popupLockRemaining = 0;
+  }
+
+  function startGlobalPopupLock(seconds) {
+    stopGlobalPopupLock();
+    popupLockRemaining = Math.max(0, Math.floor(Number(seconds) || 0));
+    popupLocked = popupLockRemaining > 0;
+    renderGlobalPopupButton();
+    if (!popupLocked) return;
+    popupLockTimer = setInterval(() => {
+      popupLockRemaining -= 1;
+      if (popupLockRemaining <= 0) stopGlobalPopupLock();
+      renderGlobalPopupButton();
+    }, 1000);
+  }
+
+  function openGlobalPopup(title, message, okDelaySeconds) {
     if (!globalPopupModal) return;
     if (globalPopupTitle) globalPopupTitle.textContent = title || t("popup.notice");
     if (globalPopupMessage) globalPopupMessage.textContent = message || "";
     globalPopupModal.classList.remove("hidden");
     globalPopupModal.classList.add("flex");
+    startGlobalPopupLock(okDelaySeconds);
   }
 
   function closeGlobalPopup(rememberDismiss = false) {
     if (!globalPopupModal) return;
+
+    // A running read timer blocks the user's own dismissals. Closes we trigger
+    // ourselves (popup switched off, sign-out) pass rememberDismiss = false.
+    if (rememberDismiss && popupLocked) return;
+    stopGlobalPopupLock();
+    shownGlobalPopupKey = null;
 
     if (rememberDismiss) {
       const currentTitle = globalPopupTitle?.textContent || "";
@@ -378,9 +422,10 @@ function getStageInfoRows() {
 
   async function checkGlobalPopup() {
     try {
+      // select * so an older database without ok_delay_seconds still works.
       const { data, error } = await supa
         .from("global_popup")
-        .select("is_active, title, message")
+        .select("*")
         .eq("id", 1)
         .maybeSingle();
 
@@ -403,7 +448,12 @@ function getStageInfoRows() {
         return;
       }
 
-      openGlobalPopup(data.title, data.message);
+      // Already on screen: don't reopen, that would restart the read timer.
+      const isOpen = globalPopupModal && !globalPopupModal.classList.contains("hidden");
+      if (isOpen && shownGlobalPopupKey === popupKey) return;
+
+      openGlobalPopup(data.title, data.message, data.ok_delay_seconds);
+      shownGlobalPopupKey = popupKey;
     } catch (e) {
       console.error("Global popup check failed:", e);
     }
@@ -1290,6 +1340,7 @@ function getStageInfoRows() {
     I18N.onChange(() => {
       renderFlame();
       renderAchievementsUI();
+      renderGlobalPopupButton();
       if (flameInfoModal && !flameInfoModal.classList.contains("hidden")) renderFlameInfo();
       renderDiary();
       relabelPanicLists();

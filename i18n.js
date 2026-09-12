@@ -196,6 +196,7 @@
     "popup.defaultMsg": "Maintenance break soon!",
     "popup.notice": "Notice",
     "popup.close": "Close",
+    "popup.closeIn": "Close in {n}s",
 
     // ---- Forgot password ----
     "forgot.line1": "Please send an email to",
@@ -471,6 +472,7 @@
     "popup.defaultMsg": "Bald gibt es eine Wartungspause!",
     "popup.notice": "Hinweis",
     "popup.close": "Schließen",
+    "popup.closeIn": "Schließen in {n}s",
 
     "forgot.line1": "Bitte schreib eine E-Mail an",
     "forgot.line2": "Mit der E-Mail-Adresse, mit der du dich registriert hast. Eine Antwort kann bis zu 72 Stunden dauern.",
@@ -737,6 +739,7 @@
     "popup.defaultMsg": "¡Pronto habrá una pausa por mantenimiento!",
     "popup.notice": "Aviso",
     "popup.close": "Cerrar",
+    "popup.closeIn": "Cerrar en {n}s",
 
     "forgot.line1": "Envía un correo a",
     "forgot.line2": "Desde el correo con el que te registraste. La respuesta puede tardar hasta 72 horas.",
@@ -1004,6 +1007,7 @@
     "popup.defaultMsg": "Une pause de maintenance est prévue bientôt !",
     "popup.notice": "Avis",
     "popup.close": "Fermer",
+    "popup.closeIn": "Fermer dans {n} s",
 
     "forgot.line1": "Merci d'envoyer un e-mail à",
     "forgot.line2": "Depuis l'adresse e-mail avec laquelle tu t'es inscrit. La réponse peut prendre jusqu'à 72 heures.",
@@ -1270,6 +1274,7 @@
     "popup.defaultMsg": "Hamarosan karbantartási szünet!",
     "popup.notice": "Értesítés",
     "popup.close": "Bezárás",
+    "popup.closeIn": "Bezárás {n} mp múlva",
 
     "forgot.line1": "Kérlek, írj egy e-mailt a következő címre",
     "forgot.line2": "Arról az e-mail-címről, amivel regisztráltál. A válasz akár 72 órát is igénybe vehet.",
