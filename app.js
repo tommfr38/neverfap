@@ -118,6 +118,9 @@
   // Achievements state (stored in profiles)
   let achievements = {};
   let achievementsDirty = false;
+  // True once the profile row has been read. Saves before that point would
+  // overwrite real data with the empty defaults above.
+  let profileLoaded = false;
   let failCount = 0;
   // Canonical English stage name — this is what lands in the database, so it
   // must never be translated. Display names go through stageLabel().
@@ -166,7 +169,7 @@
   }
 
   async function saveAllNow(showSavedTime = true) {
-    if (!sessionUser) return;
+    if (!sessionUser || !profileLoaded) return;
 
     await ensureProfileRow();
 
@@ -595,6 +598,7 @@ function getStageInfoRows() {
 
       achievements = {};
       achievementsDirty = false;
+      profileLoaded = false;
       failCount = 0;
       bestStageName = "Unlit";
       dismissedGlobalPopupKey = null;
@@ -720,6 +724,7 @@ function getStageInfoRows() {
     failCount = Number.isFinite(data?.fail_count) ? data.fail_count : 0;
     bestStageName = data?.best_stage || "Unlit";
     achievementsDirty = false;
+    profileLoaded = true;
     updateLastSavedText(null);
 
     renderAchievementsUI();
@@ -852,34 +857,31 @@ function getStageInfoRows() {
   }
 
   // ----- Auth handlers -----
-  async function init() {
-    const { data } = await supa.auth.getSession();
-    sessionUser = data?.session?.user || null;
+  async function loadUser() {
+    setView(true);
+    updateLastSavedText(null);
+    if (userEmail) userEmail.textContent = sessionUser.email;
+    await loadProfile().catch((e) => showToast(t("toast.profileLoadFailed", { msg: e.message })));
+    await loadDiary().catch((e) => showToast(t("toast.diaryLoadFailed", { msg: e.message })));
+    await checkGlobalPopup();
+  }
 
-    if (sessionUser) {
-      setView(true);
-      updateLastSavedText(null);
-      if (userEmail) userEmail.textContent = sessionUser.email;
-      await loadProfile().catch((e) => showToast(t("toast.profileLoadFailed", { msg: e.message })));
-      await loadDiary().catch((e) => showToast(t("toast.diaryLoadFailed", { msg: e.message })));
-      await checkGlobalPopup();
-    } else {
-      setView(false);
-    }
-
-    supa.auth.onAuthStateChange(async (_event, session) => {
-      sessionUser = session?.user || null;
-
-      if (sessionUser) {
-        setView(true);
-        updateLastSavedText(null);
-        if (userEmail) userEmail.textContent = sessionUser.email;
-        await loadProfile().catch((e) => showToast(t("toast.profileLoadFailed", { msg: e.message })));
-        await loadDiary().catch((e) => showToast(t("toast.diaryLoadFailed", { msg: e.message })));
-        await checkGlobalPopup();
-      } else {
-        setView(false);
-      }
+  function init() {
+    // INITIAL_SESSION covers the page load, so no separate getSession() call —
+    // that used to load the profile and diary twice. Token refreshes and
+    // profile edits don't change who is signed in, so they don't reload either
+    // (a reload would drop an unsaved achievement and restart the timers).
+    // Work is deferred with setTimeout: supabase-js holds an internal lock
+    // while the callback runs, and awaiting its own calls inside can deadlock.
+    supa.auth.onAuthStateChange((event, session) => {
+      if (event === "TOKEN_REFRESHED" || event === "USER_UPDATED") return;
+      const user = session?.user || null;
+      if (user && sessionUser && user.id === sessionUser.id && profileLoaded) return;
+      sessionUser = user;
+      setTimeout(() => {
+        if (sessionUser) loadUser().catch((e) => console.error(e));
+        else setView(false);
+      }, 0);
     });
   }
 
@@ -939,6 +941,7 @@ function getStageInfoRows() {
     } catch (e) {
       showToast(t("toast.startFailed", { msg: e.message }));
     } finally {
+      setBusy(btnStart, false);
       renderFlame();
     }
   });

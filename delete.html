@@ -132,32 +132,40 @@
           return;
         }
 
-        const { data, error } = await supa.auth.signInWithPassword({ email, password });
+        btn.disabled = true;
+        try {
+          const { data, error } = await supa.auth.signInWithPassword({ email, password });
 
-        if (error || !data?.user) {
+          if (error || !data?.user) {
+            err.textContent = t("del.errInvalid");
+            err.classList.remove("hidden");
+            return;
+          }
+
+          const { data: profile, error: profileErr } = await supa
+            .from("profiles")
+            .select("user_cookie")
+            .eq("id", data.user.id)
+            .single();
+
+          if (profileErr || !profile?.user_cookie) {
+            err.textContent = t("del.errCode");
+            err.classList.remove("hidden");
+            return;
+          }
+
+          successTitle.classList.remove("hidden");
+          successSubtitle.classList.remove("hidden");
+          successCode.textContent = profile.user_cookie;
+          successCode.classList.remove("hidden");
+
+          await supa.auth.signOut();
+        } catch (e) {
           err.textContent = t("del.errInvalid");
           err.classList.remove("hidden");
-          return;
+        } finally {
+          btn.disabled = false;
         }
-
-        const { data: profile, error: profileErr } = await supa
-          .from("profiles")
-          .select("user_cookie")
-          .eq("id", data.user.id)
-          .single();
-
-        if (profileErr || !profile?.user_cookie) {
-          err.textContent = t("del.errCode");
-          err.classList.remove("hidden");
-          return;
-        }
-
-        successTitle.classList.remove("hidden");
-        successSubtitle.classList.remove("hidden");
-        successCode.textContent = profile.user_cookie;
-        successCode.classList.remove("hidden");
-
-        await supa.auth.signOut();
       });
     </script>
   </body>

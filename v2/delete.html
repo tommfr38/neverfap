@@ -145,6 +145,9 @@
           successCode.classList.remove("hidden");
 
           await supa.auth.signOut();
+        } catch (e) {
+          err.textContent = t("del.errInvalid");
+          err.classList.remove("hidden");
         } finally {
           btn.disabled = false;
         }
