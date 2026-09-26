@@ -296,8 +296,6 @@
 
     // ---- Demo page ----
     "demo.readonly": "Demo is read-only",
-    "demo.stageCalm": "Calm Control",
-    "demo.rangeCalm": "14–21 days",
     "demo.elapsed": "14d 13h 33m",
     "demo.startedAt": "Started: 1/4/2026, 16:53:14",
     "demo.diaryText": "Hello! This is the Demo account which cannot be modified. To get your own account, press sign out and log into your own account!",
@@ -563,8 +561,6 @@
     "maint.checking": "Wird geprüft …",
 
     "demo.readonly": "Die Demo ist schreibgeschützt",
-    "demo.stageCalm": "Ruhige Kontrolle",
-    "demo.rangeCalm": "14–21 Tage",
     "demo.elapsed": "14 T 13 Std 33 Min",
     "demo.startedAt": "Start: 04.01.2026, 16:53:14",
     "demo.diaryText": "Hallo! Das hier ist das Demo-Konto, das nicht verändert werden kann. Für dein eigenes Konto meld dich ab und log dich mit deinem eigenen Konto ein!",
@@ -830,8 +826,6 @@
     "maint.checking": "Comprobando…",
 
     "demo.readonly": "La demo es de solo lectura",
-    "demo.stageCalm": "Control sereno",
-    "demo.rangeCalm": "14–21 días",
     "demo.elapsed": "14 d 13 h 33 min",
     "demo.startedAt": "Inicio: 4/1/2026, 16:53:14",
     "demo.diaryText": "¡Hola! Esta es la cuenta de demostración y no se puede modificar. Para tener tu propia cuenta, cierra sesión e inicia sesión con la tuya.",
@@ -1098,8 +1092,6 @@
     "maint.checking": "Vérification…",
 
     "demo.readonly": "La démo est en lecture seule",
-    "demo.stageCalm": "Contrôle tranquille",
-    "demo.rangeCalm": "14–21 jours",
     "demo.elapsed": "14 j 13 h 33 min",
     "demo.startedAt": "Début : 04/01/2026, 16:53:14",
     "demo.diaryText": "Salut ! Ceci est le compte de démonstration, il ne peut pas être modifié. Pour avoir ton propre compte, déconnecte-toi et connecte-toi avec le tien !",
@@ -1365,8 +1357,6 @@
     "maint.checking": "Ellenőrzés…",
 
     "demo.readonly": "A demó csak olvasható",
-    "demo.stageCalm": "Nyugodt kontroll",
-    "demo.rangeCalm": "14–21 nap",
     "demo.elapsed": "14 nap 13 óra 33 perc",
     "demo.startedAt": "Indítás: 2026. 01. 04. 16:53:14",
     "demo.diaryText": "Szia! Ez a demó fiók, amit nem lehet módosítani. Ha saját fiókot szeretnél, jelentkezz ki, és lépj be a sajátoddal!",

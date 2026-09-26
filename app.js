@@ -274,7 +274,7 @@ function getStageInfoRows() {
     flameInfoList.innerHTML = rows
       .map((r) => {
         const isCurrent = r.name === currentStageName;
-        const isBest = r.name === bestStageName;
+        const isBest = r.name === bestStageName && r.order > 0;
 
         return `
           <div class="rounded-2xl border border-white/10 ${
@@ -392,8 +392,14 @@ function getStageInfoRows() {
 
   function openGlobalPopup(title, message, okDelaySeconds) {
     if (!globalPopupModal) return;
-    if (globalPopupTitle) globalPopupTitle.textContent = title || t("popup.notice");
-    if (globalPopupMessage) globalPopupMessage.textContent = message || "";
+    if (globalPopupTitle) {
+      globalPopupTitle.removeAttribute("data-i18n");
+      globalPopupTitle.textContent = title || t("popup.notice");
+    }
+    if (globalPopupMessage) {
+      globalPopupMessage.removeAttribute("data-i18n");
+      globalPopupMessage.textContent = message || "";
+    }
     globalPopupModal.classList.remove("hidden");
     globalPopupModal.classList.add("flex");
     startGlobalPopupLock(okDelaySeconds);
