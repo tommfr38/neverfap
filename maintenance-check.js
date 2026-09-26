@@ -3,19 +3,19 @@
 //  1. Maintenance mode: site_settings.maintenance_mode sends visitors to the
 //     maintenance page.
 //  2. Version switch: site_settings.site_version picks the build visitors get.
-//       "1.17.1" (or empty) -> the files at the site root
+//       "1.17.2" (or empty) -> the files at the site root
 //       "2.0.0"             -> the files in v2/
 //     A page on the wrong version is swapped for the same page on the right one
 //     (demo.html <-> v2/demo.html), keeping the query string and hash.
 //
 // Pages built for 2.0.0 load this script with data-version="2.0.0"; untagged
-// pages are 1.17.1. The page stays hidden until the check answers, so nobody
+// pages are 1.17.2. The page stays hidden until the check answers, so nobody
 // sees a flash of the wrong version.
 (function () {
   if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) return;
 
-  var VERSIONS = { "1.17.1": "", "2.0.0": "v2/" }; // version -> folder
-  var DEFAULT_VERSION = "1.17.1";
+  var VERSIONS = { "1.17.2": "", "2.0.0": "v2/" }; // version -> folder
+  var DEFAULT_VERSION = "1.17.2";
 
   var script = document.currentScript;
   var pageVersion = (script && script.getAttribute("data-version")) || DEFAULT_VERSION;
