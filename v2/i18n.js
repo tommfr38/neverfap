@@ -47,6 +47,8 @@
     "header.tagline": "Be healthier, never fap.",
     "header.achievements": "Achievements",
     "header.signout": "Sign out",
+    "header.toV1": "Return to v1",
+    "header.toV1Title": "Switch back to the classic NeverFap (1.17.2) — you can come back to v2 any time.",
     "header.clawdTitle": "Who's this little guy?",
 
     // ---- Auth ----
@@ -348,6 +350,8 @@
     "header.tagline": "Lebe gesünder, hör auf zu fappen.",
     "header.achievements": "Erfolge",
     "header.signout": "Abmelden",
+    "header.toV1": "Zurück zu v1",
+    "header.toV1Title": "Zurück zum klassischen NeverFap (1.17.2) – du kannst jederzeit wieder zu v2 wechseln.",
     "header.clawdTitle": "Wer ist der kleine Kerl?",
 
     "auth.title": "Anmelden",
@@ -631,6 +635,8 @@
     "header.tagline": "Vive más sano, deja de masturbarte.",
     "header.achievements": "Logros",
     "header.signout": "Cerrar sesión",
+    "header.toV1": "Volver a v1",
+    "header.toV1Title": "Vuelve al NeverFap clásico (1.17.2): puedes regresar a v2 cuando quieras.",
     "header.clawdTitle": "¿Quién es este pequeñín?",
 
     "auth.title": "Iniciar sesión",
@@ -915,6 +921,8 @@
     "header.tagline": "Vis plus sainement, arrête la masturbation.",
     "header.achievements": "Succès",
     "header.signout": "Se déconnecter",
+    "header.toV1": "Revenir à la v1",
+    "header.toV1Title": "Reviens au NeverFap classique (1.17.2) — tu peux repasser à la v2 à tout moment.",
     "header.clawdTitle": "C'est qui, ce petit bonhomme ?",
 
     "auth.title": "Connexion",
@@ -1198,6 +1206,8 @@
     "header.tagline": "Élj egészségesebben, hagyd abba a maszturbálást.",
     "header.achievements": "Teljesítmények",
     "header.signout": "Kijelentkezés",
+    "header.toV1": "Vissza a v1-hez",
+    "header.toV1Title": "Vissza a klasszikus NeverFaphoz (1.17.2) – bármikor visszaválthatsz a v2-re.",
     "header.clawdTitle": "Ki ez a kis fickó?",
 
     "auth.title": "Bejelentkezés",

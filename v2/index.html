@@ -40,10 +40,10 @@
     <script src="../config.js?v=2"></script>
 
     <!-- i18n: EN / DE / ES / FR / HU. Must load before app.js. -->
-    <script src="./i18n.js?v=4"></script>
+    <script src="./i18n.js?v=5"></script>
 
     <!-- maintenance mode redirect -->
-    <script src="../maintenance-check.js?v=3" data-version="2.0.0"></script>
+    <script src="../maintenance-check.js?v=4" data-version="2.0.0"></script>
 
     <!-- ambient background, spotlight, modal transitions -->
     <script src="./fx.js?v=1"></script>
@@ -176,6 +176,14 @@
       </div>
 
       <div class="ml-auto flex flex-wrap items-center justify-end gap-2">
+        <!-- Version switch: maintenance-check.js handles data-nf-version clicks -->
+        <button type="button" data-nf-version="1.17.2" class="nf-btn nf-btn--quiet nf-btn--sm"
+          data-i18n-attr="title:header.toV1Title" title="Switch back to the classic NeverFap (1.17.2) — you can come back to v2 any time.">
+          <svg class="i i--sm" style="transform:scaleX(-1)"><use href="#i-arrow"/></svg>
+          <span data-i18n="header.toV1" class="max-sm:hidden">Return to v1</span>
+          <span class="sm:hidden">v1</span>
+        </button>
+
         <!-- Language picker (i18n.js mounts the select in here) -->
         <div data-nf-lang class="flex"></div>
 

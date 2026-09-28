@@ -2,26 +2,34 @@
 //
 //  1. Maintenance mode: site_settings.maintenance_mode sends visitors to the
 //     maintenance page.
-//  2. Version switch: site_settings.site_version picks the build visitors get.
-//       "1.17.2" (or empty) -> the files at the site root
-//       "2.0.0"             -> the files in v2/
+//  2. Version switch: picks the build a visitor gets.
+//       "1.17.2" -> the files at the site root
+//       "2.0.0"  -> the files in v2/
+//     First match wins: an admin's ?nfv preview in this tab, then the version
+//     the visitor picked themselves (the header's v1/v2 button), then
+//     site_settings.site_version, then DEFAULT_VERSION.
 //     A page on the wrong version is swapped for the same page on the right one
 //     (demo.html <-> v2/demo.html), keeping the query string and hash.
 //
 // Pages built for 2.0.0 load this script with data-version="2.0.0"; untagged
 // pages are 1.17.2. The page stays hidden until the check answers, so nobody
 // sees a flash of the wrong version.
+//
+// Any element with data-nf-version="<version>" is a switch button: clicking it
+// saves that version as the visitor's pick (on this device) and opens the same
+// page in that version.
 (function () {
-  if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) return;
-
   var VERSIONS = { "1.17.2": "", "2.0.0": "v2/" }; // version -> folder
-  var DEFAULT_VERSION = "1.17.2";
+  var DEFAULT_VERSION = "2.0.0";
+  var UNTAGGED_VERSION = "1.17.2";
+  var CHOICE_KEY = "nf_version_choice";
 
   var script = document.currentScript;
-  var pageVersion = (script && script.getAttribute("data-version")) || DEFAULT_VERSION;
+  var pageVersion = (script && script.getAttribute("data-version")) || UNTAGGED_VERSION;
 
   var bypass = false;
   var preview = null;
+  var choice = null;
   try {
     var params = new URLSearchParams(window.location.search);
 
@@ -38,6 +46,9 @@
     if (nfv === "off") sessionStorage.removeItem("nf_version_preview");
     else if (nfv && VERSIONS.hasOwnProperty(nfv)) sessionStorage.setItem("nf_version_preview", nfv);
     preview = sessionStorage.getItem("nf_version_preview");
+
+    choice = localStorage.getItem(CHOICE_KEY);
+    if (!VERSIONS.hasOwnProperty(choice)) choice = null;
   } catch (e) {}
 
   // This file lives at the site root, so its own URL tells us where that is,
@@ -56,9 +67,42 @@
     return rel;
   }
 
-  function urlFor(version, page) {
-    return new URL(VERSIONS[version] + page, rootUrl()).href + window.location.search + window.location.hash;
+  function urlFor(version, page, search) {
+    if (search === undefined) search = window.location.search;
+    return new URL(VERSIONS[version] + page, rootUrl()).href + search + window.location.hash;
   }
+
+  // The visitor's own pick. Set up before the Supabase guard below so the
+  // buttons work even if the settings can't be read.
+  function pickVersion(version) {
+    try {
+      localStorage.setItem(CHOICE_KEY, version);
+      // An explicit pick ends any ?nfv preview, or it would bounce them back.
+      sessionStorage.removeItem("nf_version_preview");
+    } catch (e) {}
+    if (version === pageVersion) return;
+
+    var search = "";
+    try {
+      var p = new URLSearchParams(window.location.search);
+      p.delete("nfv");
+      search = p.toString() ? "?" + p.toString() : "";
+    } catch (e) {}
+    window.location.href = urlFor(version, pageInVersion(), search);
+  }
+
+  if (script) {
+    document.addEventListener("click", function (e) {
+      var el = e.target && e.target.closest ? e.target.closest("[data-nf-version]") : null;
+      if (!el) return;
+      var version = el.getAttribute("data-nf-version");
+      if (!VERSIONS.hasOwnProperty(version)) return;
+      e.preventDefault();
+      pickVersion(version);
+    });
+  }
+
+  if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) return;
 
   var html = document.documentElement;
   var prevVisibility = html.style.visibility;
@@ -85,7 +129,7 @@
     .then(function (rows) {
       var s = (Array.isArray(rows) && rows[0]) || {};
 
-      var wanted = preview || s.site_version;
+      var wanted = preview || choice || s.site_version;
       if (!VERSIONS.hasOwnProperty(wanted)) wanted = DEFAULT_VERSION;
 
       if (s.maintenance_mode === true && !bypass) {

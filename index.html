@@ -35,10 +35,10 @@
     <script src="./config.js?v=2"></script>
 
     <!-- i18n: EN / DE / ES / FR / HU. Must load before app.js. -->
-    <script src="./i18n.js?v=3"></script>
+    <script src="./i18n.js?v=4"></script>
 
     <!-- maintenance mode redirect -->
-    <script src="./maintenance-check.js?v=3"></script>
+    <script src="./maintenance-check.js?v=4"></script>
 
     <style>
       @keyframes flicker {
@@ -236,6 +236,13 @@
         </div>
 
         <div class="flex flex-wrap items-center justify-end gap-2">
+          <!-- Version switch: maintenance-check.js handles data-nf-version clicks -->
+          <button type="button" data-nf-version="2.0.0" data-i18n="header.toV2"
+            data-i18n-attr="title:header.toV2Title" title="Try the new NeverFap 2.0 — you can switch back any time."
+            class="rounded-xl border border-orange-400/30 bg-orange-500/15 px-3 py-2 text-sm font-semibold text-orange-100 shadow-glow transition hover:bg-orange-500/25 active:scale-[0.98]">
+            Switch to v2
+          </button>
+
           <!-- Language picker (i18n.js mounts the select in here) -->
           <div data-nf-lang class="flex items-center"></div>
 

@@ -48,6 +48,8 @@
     "header.achievements": "Achievements",
     "header.signout": "Sign out",
     "header.clawdTitle": "Who's this little guy?",
+    "header.toV2": "Switch to v2",
+    "header.toV2Title": "Try the new NeverFap 2.0 — you can switch back any time.",
 
     // ---- Auth ----
     "auth.title": "Log in",
@@ -331,6 +333,8 @@
     "header.achievements": "Erfolge",
     "header.signout": "Abmelden",
     "header.clawdTitle": "Wer ist der kleine Kerl?",
+    "header.toV2": "Zu v2 wechseln",
+    "header.toV2Title": "Probier das neue NeverFap 2.0 aus – du kannst jederzeit zurückwechseln.",
 
     "auth.title": "Anmelden",
     "auth.sub": "Deine Daten sind sicher.",
@@ -596,6 +600,8 @@
     "header.achievements": "Logros",
     "header.signout": "Cerrar sesión",
     "header.clawdTitle": "¿Quién es este pequeñín?",
+    "header.toV2": "Cambiar a v2",
+    "header.toV2Title": "Prueba el nuevo NeverFap 2.0: puedes volver cuando quieras.",
 
     "auth.title": "Iniciar sesión",
     "auth.sub": "Tus datos están protegidos.",
@@ -861,6 +867,8 @@
     "header.tagline": "Vis plus sainement, arrête la masturbation.",
     "header.achievements": "Succès",
     "header.signout": "Se déconnecter",
+    "header.toV2": "Passer à la v2",
+    "header.toV2Title": "Essaie le nouveau NeverFap 2.0 — tu peux revenir à tout moment.",
     "header.clawdTitle": "C'est qui, ce petit bonhomme ?",
 
     "auth.title": "Connexion",
@@ -1127,6 +1135,8 @@
     "header.achievements": "Teljesítmények",
     "header.signout": "Kijelentkezés",
     "header.clawdTitle": "Ki ez a kis fickó?",
+    "header.toV2": "Váltás a v2-re",
+    "header.toV2Title": "Próbáld ki az új NeverFap 2.0-t – bármikor visszaválthatsz.",
 
     "auth.title": "Bejelentkezés",
     "auth.sub": "Az adataid biztonságban vannak.",
