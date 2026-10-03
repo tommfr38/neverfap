@@ -160,14 +160,6 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(1.25);
   backdrop-filter: blur(20px) saturate(1.25);
 }
-/* Cursor spotlight — fx.js feeds --mx / --my */
-.nf-card::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
-  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, -20%),
-    color-mix(in srgb, var(--ember-a) 11%, transparent), transparent 42%);
-  opacity: 0; transition: opacity 0.5s var(--ease-out);
-}
-.nf-card:hover::before { opacity: 1; }
 
 .nf-card--ember {
   background:

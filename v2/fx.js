@@ -1,7 +1,6 @@
 // fx.js — shared visual effects for every NeverFap page.
 //
 // - injects the ambient background (gradient, aurora, rising embers, grain)
-// - cursor spotlight on .nf-card
 // - sticky header state on scroll
 // - animated open/close for modals, exposed as NF_FX.openModal/closeModal
 //
@@ -140,24 +139,6 @@
     requestAnimationFrame(frame);
   }
 
-  // ---------------------------------------------------------------- spotlight
-  function initSpotlight() {
-    if (reduced || !window.matchMedia("(hover: hover)").matches) return;
-    var pending = null, evt = null;
-    document.addEventListener("pointermove", function (e) {
-      evt = e;
-      if (pending) return;
-      pending = requestAnimationFrame(function () {
-        pending = null;
-        var card = evt.target && evt.target.closest ? evt.target.closest(".nf-card") : null;
-        if (!card) return;
-        var r = card.getBoundingClientRect();
-        card.style.setProperty("--mx", (evt.clientX - r.left) + "px");
-        card.style.setProperty("--my", (evt.clientY - r.top) + "px");
-      });
-    }, { passive: true });
-  }
-
   // ---------------------------------------------------------------- header
   function initHeader() {
     var header = document.querySelector(".nf-header");
@@ -176,7 +157,6 @@
 
   function boot() {
     startEmbers(injectBackground());
-    initSpotlight();
     initHeader();
   }
 
