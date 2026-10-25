@@ -828,7 +828,7 @@ function getStageInfoRows() {
       wrap.innerHTML = `
         <div class="flex items-start justify-between gap-3">
           <div class="text-xs text-white/50">${when}</div>
-          <button data-id="${entry.id}"
+          <button data-id="${escapeHtml(entry.id)}"
             class="btnDel rounded-xl border border-white/10 bg-white/5 px-2 py-1 text-xs text-white/60 transition hover:bg-white/10 active:scale-[0.98]">
             ${t("diary.delete")}
           </button>

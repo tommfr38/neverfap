@@ -1014,7 +1014,7 @@ function getStageInfoRows() {
       wrap.innerHTML = `
         <div class="flex items-center justify-between gap-3">
           <div class="nf-faint tnum text-[11.5px] font-semibold">${when}</div>
-          <button data-id="${entry.id}" type="button" title="${del}" aria-label="${del}"
+          <button data-id="${escapeHtml(entry.id)}" type="button" title="${del}" aria-label="${del}"
             class="btnDel nf-btn nf-btn--quiet nf-btn--sm nf-btn--icon" style="--btn-h:30px">
             <svg class="i i--sm"><use href="#i-trash"/></svg>
           </button>
