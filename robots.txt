@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://neverfap.tommfr38.com/sitemap.xml

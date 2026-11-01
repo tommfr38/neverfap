@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>NeverFap</title>
+    <title>NeverFap: quit porn with a private streak tracker</title>
     <!-- <meta http-equiv="refresh" content="0; url=maintenance.html"> -->
 
     <!-- SEO / sharing -->
@@ -13,16 +13,18 @@
     <meta property="og:description" content="Grow your flame by staying clean. Reset if you fail. Private diary. Calm control over time.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://neverfap.tommfr38.com/">
-    <meta property="og:image" content="../og-image.png">
+    <meta property="og:image" content="https://neverfap.tommfr38.com/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="NeverFap">
     <meta name="twitter:description" content="A private streak-based tracker for quitting porn. Minimal. Persistent. Yours.">
-    <meta name="twitter:image" content="../og-image.png">
+    <meta name="twitter:image" content="https://neverfap.tommfr38.com/og-image.png">
     <meta name="theme-color" content="#0a0503">
 
-    <link rel="icon" type="image/png" href="../neverfapsmall.png">
-    <link rel="apple-touch-icon" href="../neverfapsmall.png">
-
+    <link rel="icon" href="../favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
     <!-- Fonts: Bricolage Grotesque (display) + Inter (UI) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,13 +42,15 @@
     <script src="../config.js?v=2"></script>
 
     <!-- i18n: EN / DE / ES / FR / HU. Must load before app.js. -->
-    <script src="./i18n.js?v=5"></script>
+    <script src="./i18n.js?v=6"></script>
 
     <!-- maintenance mode redirect -->
     <script src="../maintenance-check.js?v=4" data-version="2.0.0"></script>
 
     <!-- ambient background, modal transitions -->
     <script src="./fx.js?v=2"></script>
+    <link rel="stylesheet" href="../site.css?v=1" />
+    <script src="../site.js?v=1" defer></script>
   </head>
 
   <body class="is-loading min-h-screen">
@@ -238,6 +242,7 @@
 
         <h2 data-i18n="hero.title" class="nf-rise nf-gradient-text mt-8 font-display text-[44px] font-extrabold leading-[1.02] tracking-tight sm:text-6xl" style="--d:1">Take back control.</h2>
         <p data-i18n="hero.sub" class="nf-rise nf-muted mx-auto mt-5 max-w-xl text-[17px] leading-relaxed lg:mx-0" style="--d:2">A calm, private companion for quitting porn. Every clean hour grows your flame.</p>
+        <a href="#email" data-nf-cta data-i18n="cta.start" class="nf-rise nf-btn nf-btn--primary nf-btn--lg nfx-hero-cta" style="--d:2">Start your streak</a>
 
         <ul class="nf-rise mx-auto mt-8 grid max-w-md gap-3.5 text-left lg:mx-0" style="--d:3">
           <li class="flex items-center gap-3.5">
@@ -278,6 +283,14 @@
               <input id="password" type="password" autocomplete="current-password" class="nf-input" placeholder="••••••••" />
             </label>
           </div>
+
+          <div class="nfx-consent">
+            <p data-i18n="signup.lead">New here? Tick both to sign up:</p>
+            <label><input id="consentTerms" type="checkbox" /><span data-i18n-html="signup.terms">I'm 18 or older and I agree to the <a href="/terms.html" target="_blank">Terms</a> and <a href="/privacy.html" target="_blank">Privacy Policy</a>.</span></label>
+            <label><input id="consentData" type="checkbox" /><span data-i18n="signup.data">I explicitly consent to NeverFap storing my streak data and diary, which can reveal information about my sex life and health.</span></label>
+          </div>
+
+          <p id="authError" role="alert" class="nfx-form-error" hidden></p>
 
           <div class="mt-6 grid gap-3 sm:grid-cols-2">
             <button id="btnLogin" type="button" data-i18n="auth.login" class="nf-btn nf-btn--primary nf-btn--lg">Log in</button>
@@ -728,6 +741,7 @@
       <button id="btnBugReport" type="button" data-i18n="footer.bugLink" class="nf-link underline decoration-dotted underline-offset-4">
         Report bugs by clicking me!
       </button>
+      <div data-nf-legal></div>
     </footer>
   </main>
 </div>
@@ -957,6 +971,6 @@
         });
       })();
     </script>
-    <script src="./app.js?v=7"></script>
+    <script src="./app.js?v=8"></script>
   </body>
 </html>

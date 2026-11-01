@@ -25,6 +25,35 @@
 
   // ============================== ENGLISH ==============================
   DICT.en = {
+    // ---- Site chrome, consent, form errors, 404, thank-you ----
+    "site.privacy": "Privacy",
+    "site.terms": "Terms",
+    "site.cookies": "Cookie settings",
+    "site.contact": "Contact",
+    "consent.title": "Your privacy",
+    "consent.text": "NeverFap only stores what it needs to work. You can also allow anonymous page counts. We show no ads and don't track you across sites.",
+    "consent.more": "Details",
+    "consent.accept": "Allow anonymous stats",
+    "consent.reject": "Necessary only",
+    "cta.start": "Start your streak",
+    "signup.lead": "New here? Tick both to sign up:",
+    "signup.terms": "I'm 18 or older and I agree to the <a href=\"/terms.html\" target=\"_blank\">Terms</a> and <a href=\"/privacy.html\" target=\"_blank\">Privacy Policy</a>.",
+    "signup.data": "I explicitly consent to NeverFap storing my streak data and diary, which can reveal information about my sex life and health.",
+    "err.email": "Enter your email address.",
+    "err.emailBad": "That email address doesn't look right.",
+    "err.password": "Enter your password.",
+    "err.passwordShort": "Use at least 6 characters for your password.",
+    "err.consent": "Tick both boxes to create an account.",
+    "notfound.pageTitle": "Page not found • NeverFap",
+    "notfound.title": "This page burned out.",
+    "notfound.sub": "The link is broken or the page has moved. Your streak is safe.",
+    "notfound.cta": "Back to NeverFap",
+    "thanks.pageTitle": "Welcome • NeverFap",
+    "thanks.kicker": "DAY ONE",
+    "thanks.title": "Thank you for starting.",
+    "thanks.sub": "Your account is ready. If we sent you a confirmation email, open its link first, then come back and log in.",
+    "thanks.cta": "Open NeverFap",
+
     "lang.aria": "Language",
 
     // ---- Loading screen ----
@@ -61,7 +90,7 @@
     "auth.delete": "Delete my account",
     "auth.forgot": "Forgot password?",
     "auth.demo": "Fill demo",
-    "auth.note": "All information kept is fully secure, nobody can view it. Not even administrators.",
+    "auth.note": "Your streak and diary are tied to your account. Other users can't see them and we never sell them. They aren't end-to-end encrypted, as the Privacy Policy explains.",
 
     // ---- Flame card ----
     "flame.title": "Your Flame",
@@ -313,6 +342,35 @@
 
   // ============================== DEUTSCH ==============================
   DICT.de = {
+    // ---- Site chrome, consent, form errors, 404, thank-you ----
+    "site.privacy": "Datenschutz",
+    "site.terms": "Nutzungsbedingungen",
+    "site.cookies": "Cookie-Einstellungen",
+    "site.contact": "Kontakt",
+    "consent.title": "Deine Privatsphäre",
+    "consent.text": "NeverFap speichert nur, was es zum Funktionieren braucht. Du kannst außerdem anonyme Seitenaufrufzählungen erlauben. Wir zeigen keine Werbung und verfolgen dich nicht über andere Websites.",
+    "consent.more": "Details",
+    "consent.accept": "Anonyme Statistik erlauben",
+    "consent.reject": "Nur notwendige",
+    "cta.start": "Starte deine Serie",
+    "signup.lead": "Neu hier? Hake zur Registrierung beides an:",
+    "signup.terms": "Ich bin mindestens 18 Jahre alt und akzeptiere die <a href=\"/terms.html\" target=\"_blank\">Nutzungsbedingungen</a> und die <a href=\"/privacy.html\" target=\"_blank\">Datenschutzerklärung</a>.",
+    "signup.data": "Ich willige ausdrücklich ein, dass NeverFap meine Seriendaten und mein Tagebuch speichert, die Informationen über mein Sexualleben und meine Gesundheit offenbaren können.",
+    "err.email": "Gib deine E-Mail-Adresse ein.",
+    "err.emailBad": "Diese E-Mail-Adresse scheint nicht zu stimmen.",
+    "err.password": "Gib dein Passwort ein.",
+    "err.passwordShort": "Dein Passwort braucht mindestens 6 Zeichen.",
+    "err.consent": "Hake beide Kästchen an, um ein Konto zu erstellen.",
+    "notfound.pageTitle": "Seite nicht gefunden • NeverFap",
+    "notfound.title": "Diese Seite ist erloschen.",
+    "notfound.sub": "Der Link ist kaputt oder die Seite wurde verschoben. Deine Serie ist sicher.",
+    "notfound.cta": "Zurück zu NeverFap",
+    "thanks.pageTitle": "Willkommen • NeverFap",
+    "thanks.kicker": "TAG EINS",
+    "thanks.title": "Danke, dass du anfängst.",
+    "thanks.sub": "Dein Konto ist bereit. Falls wir dir eine Bestätigungs-E-Mail geschickt haben, öffne zuerst den Link darin und melde dich dann hier an.",
+    "thanks.cta": "NeverFap öffnen",
+
     "lang.aria": "Sprache",
 
     "load.init": "System wird initialisiert",
@@ -345,7 +403,7 @@
     "auth.delete": "Mein Konto löschen",
     "auth.forgot": "Passwort vergessen?",
     "auth.demo": "Demo ansehen",
-    "auth.note": "Alle gespeicherten Daten sind vollständig sicher, niemand kann sie einsehen. Nicht einmal Administratoren.",
+    "auth.note": "Deine Serie und dein Tagebuch sind an dein Konto gebunden. Andere Nutzer sehen sie nicht und wir verkaufen sie nie. Sie sind nicht Ende-zu-Ende-verschlüsselt, wie die Datenschutzerklärung erklärt.",
 
     "flame.title": "Deine Flamme",
     "flame.infoAria": "Infos zu den Flammenstufen",
@@ -580,6 +638,35 @@
 
   // ============================== ESPAÑOL ==============================
   DICT.es = {
+    // ---- Site chrome, consent, form errors, 404, thank-you ----
+    "site.privacy": "Privacidad",
+    "site.terms": "Términos",
+    "site.cookies": "Ajustes de cookies",
+    "site.contact": "Contacto",
+    "consent.title": "Tu privacidad",
+    "consent.text": "NeverFap solo guarda lo que necesita para funcionar. También puedes permitir recuentos anónimos de páginas. No mostramos anuncios ni te seguimos por otros sitios.",
+    "consent.more": "Detalles",
+    "consent.accept": "Permitir estadísticas anónimas",
+    "consent.reject": "Solo necesarias",
+    "cta.start": "Empieza tu racha",
+    "signup.lead": "¿Eres nuevo? Marca ambas para registrarte:",
+    "signup.terms": "Tengo 18 años o más y acepto los <a href=\"/terms.html\" target=\"_blank\">Términos</a> y la <a href=\"/privacy.html\" target=\"_blank\">Política de privacidad</a>.",
+    "signup.data": "Doy mi consentimiento explícito para que NeverFap guarde mis datos de racha y mi diario, que pueden revelar información sobre mi vida sexual y mi salud.",
+    "err.email": "Escribe tu correo electrónico.",
+    "err.emailBad": "Ese correo electrónico no parece correcto.",
+    "err.password": "Escribe tu contraseña.",
+    "err.passwordShort": "Usa al menos 6 caracteres en tu contraseña.",
+    "err.consent": "Marca ambas casillas para crear una cuenta.",
+    "notfound.pageTitle": "Página no encontrada • NeverFap",
+    "notfound.title": "Esta página se ha apagado.",
+    "notfound.sub": "El enlace está roto o la página se ha movido. Tu racha está a salvo.",
+    "notfound.cta": "Volver a NeverFap",
+    "thanks.pageTitle": "Bienvenido • NeverFap",
+    "thanks.kicker": "DÍA UNO",
+    "thanks.title": "Gracias por empezar.",
+    "thanks.sub": "Tu cuenta está lista. Si te hemos enviado un correo de confirmación, abre primero su enlace y luego vuelve para iniciar sesión.",
+    "thanks.cta": "Abrir NeverFap",
+
     "lang.aria": "Idioma",
 
     "load.init": "Iniciando el sistema",
@@ -612,7 +699,7 @@
     "auth.delete": "Eliminar mi cuenta",
     "auth.forgot": "¿Olvidaste tu contraseña?",
     "auth.demo": "Ver la demo",
-    "auth.note": "Toda la información guardada es totalmente segura y nadie puede verla. Ni siquiera los administradores.",
+    "auth.note": "Tu racha y tu diario están vinculados a tu cuenta. Otros usuarios no pueden verlos y nunca los vendemos. No tienen cifrado de extremo a extremo, como explica la Política de privacidad.",
 
     "flame.title": "Tu llama",
     "flame.infoAria": "Información sobre las etapas de la llama",
@@ -848,6 +935,35 @@
   // ============================== FRANÇAIS ==============================
   // Les valeurs fr utilisent U+00A0 (espace insecable) avant ? ! : ; comme le veut la typographie francaise.
   DICT.fr = {
+    // ---- Site chrome, consent, form errors, 404, thank-you ----
+    "site.privacy": "Confidentialité",
+    "site.terms": "Conditions",
+    "site.cookies": "Paramètres des cookies",
+    "site.contact": "Contact",
+    "consent.title": "Ta vie privée",
+    "consent.text": "NeverFap ne stocke que ce dont il a besoin pour fonctionner. Tu peux aussi autoriser un comptage anonyme des pages. Nous n'affichons pas de pub et ne te suivons pas sur d'autres sites.",
+    "consent.more": "Détails",
+    "consent.accept": "Autoriser les stats anonymes",
+    "consent.reject": "Nécessaire uniquement",
+    "cta.start": "Lance ta série",
+    "signup.lead": "Nouveau ici ? Coche les deux pour t'inscrire :",
+    "signup.terms": "J'ai 18 ans ou plus et j'accepte les <a href=\"/terms.html\" target=\"_blank\">Conditions</a> et la <a href=\"/privacy.html\" target=\"_blank\">Politique de confidentialité</a>.",
+    "signup.data": "Je consens explicitement à ce que NeverFap stocke mes données de série et mon journal, qui peuvent révéler des informations sur ma vie sexuelle et ma santé.",
+    "err.email": "Saisis ton adresse e-mail.",
+    "err.emailBad": "Cette adresse e-mail ne semble pas correcte.",
+    "err.password": "Saisis ton mot de passe.",
+    "err.passwordShort": "Utilise au moins 6 caractères pour ton mot de passe.",
+    "err.consent": "Coche les deux cases pour créer un compte.",
+    "notfound.pageTitle": "Page introuvable • NeverFap",
+    "notfound.title": "Cette page s'est éteinte.",
+    "notfound.sub": "Le lien est cassé ou la page a été déplacée. Ta série est en sécurité.",
+    "notfound.cta": "Retour à NeverFap",
+    "thanks.pageTitle": "Bienvenue • NeverFap",
+    "thanks.kicker": "JOUR UN",
+    "thanks.title": "Merci de te lancer.",
+    "thanks.sub": "Ton compte est prêt. Si nous t'avons envoyé un e-mail de confirmation, ouvre d'abord son lien, puis reviens te connecter.",
+    "thanks.cta": "Ouvrir NeverFap",
+
     "lang.aria": "Langue",
 
     "load.init": "Initialisation du système",
@@ -880,7 +996,7 @@
     "auth.delete": "Supprimer mon compte",
     "auth.forgot": "Mot de passe oublié ?",
     "auth.demo": "Voir la démo",
-    "auth.note": "Toutes les informations conservées sont parfaitement sécurisées, personne ne peut les consulter. Pas même les administrateurs.",
+    "auth.note": "Ta série et ton journal sont liés à ton compte. Les autres utilisateurs ne peuvent pas les voir et nous ne les vendons jamais. Ils ne sont pas chiffrés de bout en bout, comme l'explique la Politique de confidentialité.",
 
     "flame.title": "Ta flamme",
     "flame.infoAria": "Infos sur les paliers de la flamme",
@@ -1115,6 +1231,35 @@
 
   // ============================== MAGYAR ==============================
   DICT.hu = {
+    // ---- Site chrome, consent, form errors, 404, thank-you ----
+    "site.privacy": "Adatvédelem",
+    "site.terms": "Feltételek",
+    "site.cookies": "Süti-beállítások",
+    "site.contact": "Kapcsolat",
+    "consent.title": "Az adatvédelmed",
+    "consent.text": "A NeverFap csak azt tárolja, ami a működéséhez kell. Emellett engedélyezheted az anonim oldalszámlálást. Nem jelenítünk meg reklámot, és nem követünk más oldalakon.",
+    "consent.more": "Részletek",
+    "consent.accept": "Anonim statisztika engedélyezése",
+    "consent.reject": "Csak a szükségesek",
+    "cta.start": "Kezdd el a sorozatod",
+    "signup.lead": "Új vagy itt? A regisztrációhoz jelöld be mindkettőt:",
+    "signup.terms": "Elmúltam 18 éves, és elfogadom a <a href=\"/terms.html\" target=\"_blank\">Feltételeket</a> és az <a href=\"/privacy.html\" target=\"_blank\">Adatvédelmi tájékoztatót</a>.",
+    "signup.data": "Kifejezetten hozzájárulok, hogy a NeverFap tárolja a sorozatadataimat és a naplómat, amelyek információt árulhatnak el a szexuális életemről és az egészségemről.",
+    "err.email": "Add meg az e-mail-címed.",
+    "err.emailBad": "Ez az e-mail-cím nem tűnik helyesnek.",
+    "err.password": "Add meg a jelszavad.",
+    "err.passwordShort": "A jelszavad legalább 6 karakter legyen.",
+    "err.consent": "A fiók létrehozásához jelöld be mindkét négyzetet.",
+    "notfound.pageTitle": "Az oldal nem található • NeverFap",
+    "notfound.title": "Ez az oldal kialudt.",
+    "notfound.sub": "A link hibás, vagy az oldal elköltözött. A sorozatod biztonságban van.",
+    "notfound.cta": "Vissza a NeverFaphoz",
+    "thanks.pageTitle": "Üdv • NeverFap",
+    "thanks.kicker": "ELSŐ NAP",
+    "thanks.title": "Köszönjük, hogy belevágsz.",
+    "thanks.sub": "A fiókod készen áll. Ha küldtünk megerősítő e-mailt, előbb nyisd meg a benne lévő linket, aztán gyere vissza és jelentkezz be.",
+    "thanks.cta": "NeverFap megnyitása",
+
     "lang.aria": "Nyelv",
 
     "load.init": "Rendszer inicializálása",
@@ -1147,7 +1292,7 @@
     "auth.delete": "Fiókom törlése",
     "auth.forgot": "Elfelejtetted a jelszavad?",
     "auth.demo": "Demó megtekintése",
-    "auth.note": "Minden tárolt adat teljesen biztonságban van, senki sem láthatja. Még az adminisztrátorok sem.",
+    "auth.note": "A sorozatod és a naplód a fiókodhoz kötődik. Más felhasználók nem látják őket, és soha nem adjuk el őket. Nincsenek végpontok között titkosítva, ahogy az Adatvédelmi tájékoztató is kifejti.",
 
     "flame.title": "A lángod",
     "flame.infoAria": "Információ a láng szakaszairól",

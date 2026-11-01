@@ -1,0 +1,214 @@
+/* site.css — shared by both versions and the standalone pages (privacy, terms,
+   thank-you, 404). Plain CSS on purpose: the standalone pages load no Tailwind,
+   no web fonts and no other third-party resources. */
+:root {
+  --nfx-bg: #0a0503;
+  --nfx-card: #170c07;
+  --nfx-ink: #f8f1ec;
+  --nfx-muted: rgba(248, 241, 236, 0.68);
+  --nfx-line: rgba(255, 236, 222, 0.14);
+  --nfx-brand: #f97316;
+  --nfx-brand-ink: #1c0a02;
+  --nfx-danger: #fca5a5;
+}
+
+/* The standalone pages have no Tailwind reset. */
+.nfx-page *,
+.nfx-banner,
+.nfx-banner *,
+.nfx-sticky,
+.nfx-sticky * { box-sizing: border-box; }
+
+/* ----- Buttons ----- */
+.nfx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid var(--nfx-line);
+  border-radius: 14px;
+  background: rgba(255, 240, 230, 0.06);
+  color: var(--nfx-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.nfx-btn:hover { background: rgba(255, 240, 230, 0.12); }
+.nfx-btn--primary {
+  border-color: transparent;
+  background: var(--nfx-brand);
+  color: var(--nfx-brand-ink);
+}
+.nfx-btn--primary:hover { background: #fb8a3c; }
+
+/* ----- Legal links ----- */
+.nfx-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  margin-top: 16px;
+  font-size: 12px;
+}
+.nfx-legal a,
+.nfx-legal button {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--nfx-muted);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.nfx-legal a:hover,
+.nfx-legal button:hover { color: var(--nfx-ink); }
+
+/* ----- Cookie banner ----- */
+.nfx-banner {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9000;
+  width: min(420px, calc(100vw - 32px));
+  padding: 18px;
+  border: 1px solid var(--nfx-line);
+  border-radius: 18px;
+  background: var(--nfx-card);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  color: var(--nfx-ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.nfx-banner h2 { margin: 0 0 6px; font-size: 15px; font-weight: 800; }
+.nfx-banner p { margin: 0; color: var(--nfx-muted); }
+.nfx-banner a { color: var(--nfx-ink); text-decoration: underline; text-underline-offset: 3px; }
+.nfx-banner__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* ----- Sticky mobile CTA ----- */
+.nfx-sticky {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  display: none;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--nfx-line);
+  background: rgba(10, 5, 3, 0.92);
+}
+.nfx-sticky .nfx-btn { width: 100%; }
+@media (max-width: 767px) {
+  .nfx-sticky:not([hidden]) { display: block; }
+  .nfx-banner-open .nfx-sticky { display: none; }
+  .nfx-sticky-on { padding-bottom: 76px; }
+}
+
+/* Hero button: the form sits beside the hero on desktop, so only phones and
+   tablets need it. */
+.nfx-hero-cta { margin-top: 24px; }
+@media (min-width: 1024px) {
+  .nfx-hero-cta { display: none; }
+}
+
+/* ----- Auth form: consent and errors ----- */
+.nfx-consent {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  color: var(--nfx-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.nfx-consent p { margin: 0; font-weight: 700; }
+.nfx-consent label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.nfx-consent input { flex: none; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--nfx-brand); }
+.nfx-consent a { color: var(--nfx-ink); text-decoration: underline; text-underline-offset: 3px; }
+.nfx-form-error {
+  margin: 14px 0 0;
+  color: var(--nfx-danger);
+  font-size: 14px;
+  font-weight: 600;
+}
+input[aria-invalid="true"] {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+/* ----- Standalone pages ----- */
+.nfx-page {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #140802, #0a0503);
+  background-attachment: fixed;
+  color: var(--nfx-ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.nfx-wrap { max-width: 760px; margin: 0 auto; padding: 32px 16px 56px; }
+.nfx-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--nfx-ink);
+  font-size: 18px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.nfx-brand img { display: block; border-radius: 8px; }
+
+.nfx-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+}
+.nfx-center h1 {
+  margin: 24px 0 8px;
+  font-size: clamp(30px, 8vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.nfx-center p { max-width: 460px; margin: 0 0 24px; color: var(--nfx-muted); }
+.nfx-code { color: var(--nfx-brand); font-size: 14px; font-weight: 800; letter-spacing: 0.2em; }
+
+.nfx-prose { margin-top: 32px; overflow-wrap: anywhere; }
+.nfx-prose h1 { margin: 0; font-size: clamp(30px, 8vw, 40px); line-height: 1.15; letter-spacing: -0.02em; }
+.nfx-prose h2 { margin: 36px 0 8px; font-size: 20px; line-height: 1.3; scroll-margin-top: 16px; }
+.nfx-prose p, .nfx-prose li { color: var(--nfx-muted); }
+.nfx-prose p { margin: 0 0 12px; }
+.nfx-prose ul { margin: 0 0 12px; padding-left: 20px; }
+.nfx-prose strong { color: var(--nfx-ink); }
+.nfx-prose a { color: var(--nfx-ink); text-underline-offset: 3px; }
+.nfx-updated { margin-top: 8px !important; font-size: 14px; }
+.nfx-box {
+  margin: 24px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--nfx-line);
+  border-radius: 16px;
+  background: rgba(255, 240, 230, 0.04);
+}
+.nfx-box p:last-child, .nfx-box ul:last-child { margin-bottom: 0; }
+.nfx-table { margin: 12px 0 16px; overflow-x: auto; }
+.nfx-table table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 14px; }
+.nfx-table th, .nfx-table td {
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--nfx-line);
+  color: var(--nfx-muted);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: normal;
+}
+.nfx-table th { color: var(--nfx-ink); }

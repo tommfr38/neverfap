@@ -3,7 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeverFap</title>
+    <title>NeverFap: quit porn with a private streak tracker</title>
+    <!-- Basic SEO -->
+    <meta name="title" content="NeverFap: quit porn with a private streak tracker">
+    <meta name="description" content="A minimal, private tool to help quit porn. Grow your flame with time, reset when needed, and keep a private diary.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="NeverFap">
+    <meta property="og:description" content="Grow your flame by staying clean. Reset if you fail. Private diary. Calm control over time.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://neverfap.tommfr38.com/">
+    <meta property="og:image" content="https://neverfap.tommfr38.com/og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NeverFap">
+    <meta name="twitter:description" content="A private streak-based tracker for quitting porn. Minimal. Persistent. Yours.">
+    <meta name="twitter:image" content="https://neverfap.tommfr38.com/og-image.png">
+
+    <!-- Theme color (browser UI / mobile) -->
+    <meta name="theme-color" content="#f59e0b" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
    <!-- <meta http-equiv="refresh" content="0; url=maintenance.html"> -->
     <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,9 +43,11 @@
       };
     </script>
 
-    <link rel="icon" type="image/png" href="./neverfapsmall.png">
-    <link rel="apple-touch-icon" href="./neverfapsmall.png">
-
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
     <!-- Supabase JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" integrity="sha384-KX6Y/AMIv9qA8TLCDul2JatZWeyrJVgj3Xu/0r30Nr05xO8md1+wHAgtdsRV9LoE" crossorigin="anonymous"></script>
 
@@ -35,7 +57,7 @@
     <script src="./config.js?v=2"></script>
 
     <!-- i18n: EN / DE / ES / FR / HU. Must load before app.js. -->
-    <script src="./i18n.js?v=4"></script>
+    <script src="./i18n.js?v=5"></script>
 
     <!-- maintenance mode redirect -->
     <script src="./maintenance-check.js?v=4"></script>
@@ -86,6 +108,8 @@
         animation: confettiFall 1.1s ease-out forwards;
       }
     </style>
+    <link rel="stylesheet" href="./site.css?v=1" />
+    <script src="./site.js?v=1" defer></script>
   </head>
 
   <body class="min-h-screen text-white antialiased">
@@ -183,27 +207,6 @@
   ></div>
 </div>
 
-<!-- Basic SEO -->
-<meta name="title" content="NeverFap">
-<meta name="description" content="A minimal, private tool to help quit porn. Grow your flame with time, reset when needed, and keep a private diary.">
-
-<!-- Open Graph -->
-<meta property="og:title" content="NeverFap">
-<meta property="og:description" content="Grow your flame by staying clean. Reset if you fail. Private diary. Calm control over time.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://neverfap.tommfr38.com/">
-<meta property="og:image" content="./og-image.png">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="NeverFap">
-<meta name="twitter:description" content="A private streak-based tracker for quitting porn. Minimal. Persistent. Yours.">
-<meta name="twitter:image" content="./og-image.png">
-
-<!-- Theme color (browser UI / mobile) -->
-<meta name="theme-color" content="#f59e0b" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
-
     <main class="mx-auto max-w-4xl px-4 py-10">
       <!-- Header -->
       <header class="flex flex-wrap items-center justify-between gap-4">
@@ -291,6 +294,14 @@
                 placeholder="••••••••" />
             </label>
           </div>
+
+          <div class="nfx-consent">
+            <p data-i18n="signup.lead">New here? Tick both to sign up:</p>
+            <label><input id="consentTerms" type="checkbox" /><span data-i18n-html="signup.terms">I'm 18 or older and I agree to the <a href="/terms.html" target="_blank">Terms</a> and <a href="/privacy.html" target="_blank">Privacy Policy</a>.</span></label>
+            <label><input id="consentData" type="checkbox" /><span data-i18n="signup.data">I explicitly consent to NeverFap storing my streak data and diary, which can reveal information about my sex life and health.</span></label>
+          </div>
+
+          <p id="authError" role="alert" class="nfx-form-error" hidden></p>
 
           <div class="mt-6 flex flex-wrap gap-3">
             <button id="btnLogin" data-i18n="auth.login"
@@ -776,6 +787,7 @@
           type="button">
           Report bugs by clicking me!
         </button>
+        <div data-nf-legal></div>
       </footer>
     </main>
 
@@ -994,6 +1006,6 @@
         });
       })();
     </script>
-    <script src="./app.js?v=5"></script>
+    <script src="./app.js?v=6"></script>
   </body>
 </html>

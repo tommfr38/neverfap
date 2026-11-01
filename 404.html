@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="notfound.pageTitle">Page not found • NeverFap</title>
+    <meta name="description" content="This page doesn't exist. Head back to NeverFap, the private streak tracker for quitting porn." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0a0503" />
+
+    <!-- GitHub Pages serves this file at any missing path, so every URL here is
+         absolute. No maintenance-check.js: it would look for a v2/404.html. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="/site.css?v=1" />
+
+    <script src="/config.js"></script>
+    <script src="/v2/i18n.js?v=6"></script>
+    <script src="/site.js?v=1" defer></script>
+  </head>
+
+  <body class="nfx-page" data-nf-path="/404">
+    <main class="nfx-wrap">
+      <a class="nfx-brand" href="/">
+        <img src="/icon-192.png" alt="" width="32" height="32" />
+        NeverFap
+      </a>
+
+      <div class="nfx-center">
+        <span class="nfx-code">404</span>
+        <h1 id="notFoundLine" data-i18n="notfound.line1">This page burned out.</h1>
+        <script>
+          // A different headline on each load (notfound.line1–15 in v2/i18n.js).
+          (function () {
+            var line = document.getElementById("notFoundLine");
+            var key = "notfound.line" + (1 + Math.floor(Math.random() * 15));
+            line.setAttribute("data-i18n", key);
+            if (window.NF_I18N) line.textContent = window.NF_I18N.t(key);
+          })();
+        </script>
+        <p data-i18n="notfound.sub">The link is broken or the page has moved. Your streak is safe.</p>
+        <a class="nfx-btn nfx-btn--primary" href="/" data-i18n="notfound.cta">Back to NeverFap</a>
+      </div>
+
+      <div data-nf-legal></div>
+    </main>
+  </body>
+</html>

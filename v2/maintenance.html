@@ -4,9 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title data-i18n="maint.pageTitle">NeverFap • Maintenance</title>
+    <meta name="description" content="NeverFap is down for maintenance and will be back soon." />
+    <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#0a0503" />
-    <link rel="icon" type="image/png" href="../neverfapsmall.png" />
-
+    <link rel="icon" href="../favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400..800&display=swap">
@@ -17,7 +22,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" integrity="sha384-KX6Y/AMIv9qA8TLCDul2JatZWeyrJVgj3Xu/0r30Nr05xO8md1+wHAgtdsRV9LoE" crossorigin="anonymous"></script>
     <script src="../config.js"></script>
-    <script src="./i18n.js?v=5"></script>
+    <script src="./i18n.js?v=6"></script>
     <script src="./fx.js?v=2"></script>
 
     <style>
@@ -35,6 +40,8 @@
       }
       @keyframes wobble { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
     </style>
+    <link rel="stylesheet" href="../site.css?v=1" />
+    <script src="../site.js?v=1" defer></script>
   </head>
 
   <body class="min-h-screen">
@@ -104,6 +111,7 @@
       <p id="maintFooter" data-i18n="maint.footer" class="nf-rise nf-faint mt-12 text-xs" style="--d:5">
         Thanks for your patience ❤️
       </p>
+    <div data-nf-legal></div>
     </main>
 
     <!-- ===================== ADMIN BYPASS MODAL ===================== -->

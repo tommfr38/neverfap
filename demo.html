@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeverFap</title>
+    <title>NeverFap demo: try the streak tracker without an account</title>
 
     <!-- maintenance mode redirect -->
     <script src="./config.js"></script>
-    <script src="./i18n.js?v=4"></script>
+    <script src="./i18n.js?v=5"></script>
     <script src="./maintenance-check.js?v=4"></script>
 
     <!-- Tailwind (CDN) -->
@@ -27,28 +27,27 @@
       };
     </script>
 
-    <link rel="icon" type="image/png" href="./neverfapsmall.png" />
-    <link rel="apple-touch-icon" href="./neverfapsmall.png" />
-
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
     <!-- Basic SEO -->
-    <meta name="title" content="NeverFap" />
-    <meta
-      name="description"
-      content="A minimal, private tool to help quit porn. Grow your flame with time, reset when needed, and keep a private diary."
-    />
+    <meta name="title" content="NeverFap demo: try the streak tracker without an account" />
+    <meta name="description" content="Try NeverFap without an account. See how the flame, streak, diary and panic mode work before you sign up." />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="NeverFap" />
+    <meta property="og:title" content="NeverFap demo: try the streak tracker without an account" />
     <meta property="og:description" content="Grow your flame by staying clean. Reset if you fail. Private diary. Calm control over time." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://neverfap.tommfr38.com/" />
-    <meta property="og:image" content="./og-image.png" />
+    <meta property="og:image" content="https://neverfap.tommfr38.com/og-image.png" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="NeverFap" />
     <meta name="twitter:description" content="A private flame-based tracker for quitting porn. Minimal. Persistent. Yours." />
-    <meta name="twitter:image" content="./og-image.png" />
+    <meta name="twitter:image" content="https://neverfap.tommfr38.com/og-image.png" />
 
     <!-- Theme color (browser UI / mobile) -->
     <meta name="theme-color" content="#f59e0b" media="(prefers-color-scheme: light)" />
@@ -67,6 +66,8 @@
         transform-origin: center bottom;
       }
     </style>
+    <link rel="stylesheet" href="./site.css?v=1" />
+    <script src="./site.js?v=1" defer></script>
   </head>
 
   <body class="min-h-screen text-white antialiased">
@@ -382,6 +383,7 @@
       <footer data-i18n="demo.footer" class="mt-10 text-center text-xs text-white/40">
         Built by Tomm for a healthier world. Any bugs can be DM-ed to me on tiktok @tommfr38
       </footer>
+    <div data-nf-legal></div>
     </main>
 
     <!-- FLAME INFO MODAL (demo) -->

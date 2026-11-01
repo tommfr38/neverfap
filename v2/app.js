@@ -1080,16 +1080,48 @@ function getStageInfoRows() {
   // ----- UI events -----
   on(btnDemoFill, "click", () => (window.location.href = "./demo.html"));
 
+  // Inline auth form errors: a message under the fields, red outline on the
+  // field at fault.
+  const authError = document.getElementById("authError");
+  const consentTerms = document.getElementById("consentTerms");
+  const consentData = document.getElementById("consentData");
+
+  function showAuthError(msg, field = null) {
+    [emailEl, passEl].forEach((el) => el?.removeAttribute("aria-invalid"));
+    if (authError) {
+      authError.textContent = msg || "";
+      authError.hidden = !msg;
+    }
+    if (field) {
+      field.setAttribute("aria-invalid", "true");
+      field.focus();
+    }
+  }
+
+  function authFormValid(email, password, isSignup) {
+    if (!email) return showAuthError(t("err.email"), emailEl), false;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showAuthError(t("err.emailBad"), emailEl), false;
+    if (!password) return showAuthError(t("err.password"), passEl), false;
+    if (isSignup && password.length < 6) return showAuthError(t("err.passwordShort"), passEl), false;
+    if (isSignup && !(consentTerms?.checked && consentData?.checked)) return showAuthError(t("err.consent")), false;
+    showAuthError("");
+    return true;
+  }
+
+  on(emailEl, "input", () => showAuthError(""));
+  on(passEl, "input", () => showAuthError(""));
+
   on(btnSignup, "click", async () => {
     try {
       setBusy(btnSignup, true);
       const email = (emailEl?.value || "").trim();
       const password = passEl?.value || "";
+      if (!authFormValid(email, password, true)) return;
       const { error } = await supa.auth.signUp({ email, password });
       if (error) throw error;
-      showToast(t("toast.signedUp"));
+      window.location.href = "../thank-you.html";
     } catch (e) {
-      showToast(t("toast.signupFailed", { msg: e.message }));
+      showAuthError(t("toast.signupFailed", { msg: e.message }));
     } finally {
       setBusy(btnSignup, false);
     }
@@ -1100,11 +1132,12 @@ function getStageInfoRows() {
       setBusy(btnLogin, true);
       const email = (emailEl?.value || "").trim();
       const password = passEl?.value || "";
+      if (!authFormValid(email, password, false)) return;
       const { error } = await supa.auth.signInWithPassword({ email, password });
       if (error) throw error;
       showToast(t("toast.welcome"));
     } catch (e) {
-      showToast(t("toast.loginFailed", { msg: e.message }));
+      showAuthError(t("toast.loginFailed", { msg: e.message }));
     } finally {
       setBusy(btnLogin, false);
     }
