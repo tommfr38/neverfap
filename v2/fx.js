@@ -1,6 +1,6 @@
 // fx.js — shared visual effects for every NeverFap page.
 //
-// - injects the ambient background (gradient, aurora, rising embers, grain)
+// - injects the ambient background (gradient, rising embers, grain)
 // - sticky header state on scroll
 // - animated open/close for modals, exposed as NF_FX.openModal/closeModal
 //
@@ -47,8 +47,6 @@
     bg.setAttribute("aria-hidden", "true");
     bg.innerHTML =
       '<div class="nf-bg__base"></div>' +
-      '<div class="nf-aurora nf-aurora--a"></div>' +
-      '<div class="nf-aurora nf-aurora--b"></div>' +
       '<canvas class="nf-embers"></canvas>' +
       '<div class="nf-grain"></div>' +
       '<div class="nf-vignette"></div>';

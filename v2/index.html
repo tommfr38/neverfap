@@ -31,7 +31,7 @@
 
     <!-- Tailwind (CDN) for layout utilities; the look lives in theme.css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./theme.css?v=3">
+    <link rel="stylesheet" href="./theme.css?v=4">
 
     <!-- Supabase JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" integrity="sha384-KX6Y/AMIv9qA8TLCDul2JatZWeyrJVgj3Xu/0r30Nr05xO8md1+wHAgtdsRV9LoE" crossorigin="anonymous"></script>
@@ -47,7 +47,7 @@
     <script src="../maintenance-check.js?v=4" data-version="2.0.0"></script>
 
     <!-- ambient background, modal transitions -->
-    <script src="./fx.js?v=2"></script>
+    <script src="./fx.js?v=3"></script>
     <link rel="stylesheet" href="../site.css?v=1" />
     <script src="../site.js?v=1" defer></script>
   </head>
@@ -243,16 +243,16 @@
         <p data-i18n="hero.sub" class="nf-rise nf-muted mx-auto mt-5 max-w-xl text-[17px] leading-relaxed lg:mx-0" style="--d:2">A calm, private companion for quitting porn. Every clean hour grows your flame.</p>
         <a href="#email" data-nf-cta data-i18n="cta.start" class="nf-rise nf-btn nf-btn--primary nf-btn--lg nfx-hero-cta" style="--d:2">Start your streak</a>
 
-        <ul class="nf-rise mx-auto mt-8 grid max-w-md gap-3.5 text-left lg:mx-0" style="--d:3">
-          <li class="flex items-center gap-3.5">
+        <ul class="nf-features nf-rise mx-auto mt-8 grid max-w-md gap-3 text-left lg:mx-0" style="--d:3">
+          <li class="flex items-center gap-3">
             <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-book"/></svg></span>
             <span data-i18n="hero.f1" class="text-[15px] font-medium">A private diary only you can read</span>
           </li>
-          <li class="flex items-center gap-3.5">
+          <li class="flex items-center gap-3">
             <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-buoy"/></svg></span>
             <span data-i18n="hero.f2" class="text-[15px] font-medium">Panic mode for the hardest moments</span>
           </li>
-          <li class="flex items-center gap-3.5">
+          <li class="flex items-center gap-3">
             <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-trophy"/></svg></span>
             <span data-i18n="hero.f3" class="text-[15px] font-medium">Flames and achievements that grow with you</span>
           </li>
@@ -269,7 +269,6 @@
                 <span data-i18n="auth.sub">Your data is secured.</span>
               </p>
             </div>
-            <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-key"/></svg></span>
           </div>
 
           <div class="mt-7 grid gap-4">
@@ -425,7 +424,6 @@
         <article class="nf-card nf-rise p-5 sm:p-8" style="--d:1">
           <div class="flex flex-wrap items-start justify-between gap-4">
             <div class="flex items-center gap-3.5">
-              <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-book"/></svg></span>
               <div>
                 <h2 data-i18n="diary.title" class="nf-title text-[24px]">Diary</h2>
                 <p data-i18n="diary.sub" class="nf-muted text-sm">Private notes. Short is fine.</p>
@@ -493,7 +491,6 @@
         <div class="nf-modal__panel nf-panel nf-scroll max-w-2xl p-6 sm:p-8">
           <div class="flex items-start justify-between gap-4">
             <div class="flex items-center gap-3.5">
-              <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-trophy"/></svg></span>
               <div>
                 <h3 data-i18n="ach.title" class="nf-title text-2xl">Achievements</h3>
                 <p data-i18n="ach.sub" class="nf-muted text-sm">Earn achievements by using the app.</p>
@@ -680,8 +677,7 @@
       <div id="confirmFailedModal" class="nf-modal fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
         <div id="confirmFailedBackdrop" class="nf-modal__backdrop"></div>
         <div class="nf-modal__panel nf-panel max-w-sm p-6 text-center sm:p-7">
-          <span class="nf-icon-tile nf-icon-tile--danger mx-auto"><svg class="i"><use href="#i-rotate"/></svg></span>
-          <h3 data-i18n="fail.title" class="nf-title mt-4 text-[22px]">Reset your streak?</h3>
+          <h3 data-i18n="fail.title" class="nf-title text-[22px]">Reset your streak?</h3>
           <p data-i18n="fail.body" class="nf-muted mt-2 text-sm leading-relaxed">This will clear your current flame and add a fail to your count. This can't be undone.</p>
           <div class="mt-6 grid gap-2.5">
             <button id="btnConfirmFailed" type="button" data-i18n="fail.yes" class="nf-btn nf-btn--danger nf-btn--lg">Yes, I failed</button>
@@ -694,8 +690,7 @@
       <div id="globalPopupModal" class="nf-modal fixed inset-0 z-[70] hidden" role="dialog" aria-modal="true">
         <div id="globalPopupBackdrop" class="nf-modal__backdrop"></div>
         <div class="nf-modal__panel nf-panel max-w-lg p-6 sm:p-8">
-          <span class="nf-icon-tile nf-icon-tile--ember"><svg class="i"><use href="#i-bell"/></svg></span>
-          <h3 id="globalPopupTitle" data-i18n="popup.defaultTitle" class="nf-title mt-4 text-2xl">Maintenance</h3>
+          <h3 id="globalPopupTitle" data-i18n="popup.defaultTitle" class="nf-title text-2xl">Maintenance</h3>
           <p id="globalPopupMessage" data-i18n="popup.defaultMsg" class="nf-muted mt-3 whitespace-pre-wrap text-[15px] leading-relaxed">Maintenance break soon!</p>
           <button id="btnCloseGlobalPopup" type="button" data-i18n="popup.close" class="nf-btn nf-btn--ghost nf-btn--lg nf-btn--block mt-7">Close</button>
         </div>
@@ -723,8 +718,7 @@
     <div id="bugReportModal" class="nf-modal fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
       <div id="bugReportBackdrop" class="nf-modal__backdrop"></div>
       <div class="nf-modal__panel nf-panel max-w-md p-6 text-center sm:p-8">
-        <span class="nf-icon-tile nf-icon-tile--ember mx-auto"><svg class="i"><use href="#i-bug"/></svg></span>
-        <h3 data-i18n="bug.title" class="nf-title mt-4 text-2xl">Did someone say... bugs?</h3>
+        <h3 data-i18n="bug.title" class="nf-title text-2xl">Did someone say... bugs?</h3>
         <p data-i18n="bug.sub" class="nf-muted mt-2 text-sm">To report bugs, press the button below</p>
         <div class="mt-7 grid gap-2.5">
           <a href="mailto:neverfap@tommfr38.com" class="nf-btn nf-btn--primary nf-btn--lg">
