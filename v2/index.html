@@ -29,8 +29,8 @@
     <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="fonts.css">
 
-    <!-- Tailwind (CDN) for layout utilities; the look lives in theme.css -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind 3.4.17 Play build, self-hosted (vendor/) so no third party runs on the page; the look lives in theme.css -->
+    <script src="../vendor/tailwindcss-3.4.17.js"></script>
     <link rel="stylesheet" href="./theme.css?v=4">
 
     <!-- Supabase JS (CDN) -->
@@ -41,7 +41,7 @@
     <script src="../config.js?v=2"></script>
 
     <!-- i18n: EN / DE / ES / FR / HU. Must load before app.js. -->
-    <script src="./i18n.js?v=6"></script>
+    <script src="./i18n.js?v=7"></script>
 
     <!-- maintenance mode redirect -->
     <script src="../maintenance-check.js?v=4" data-version="2.0.0"></script>
@@ -310,7 +310,7 @@
           </div>
 
           <p data-i18n="auth.note" class="nf-faint mt-6 text-xs leading-relaxed">
-            All information kept is fully secure, nobody can view it. Not even administrators.
+            Your streak and diary are tied to your account. Other users can't see them and we never sell them. They aren't end-to-end encrypted, as the Privacy Policy explains.
           </p>
         </div>
       </div>
@@ -563,11 +563,11 @@
 
           <div class="mt-6 grid gap-2">
             <button id="btnSaveAchievements" type="button" data-i18n="ach.save" class="nf-btn nf-btn--primary nf-btn--lg nf-btn--block">Save achievements</button>
-            <p id="achSaveHint" data-i18n="ach.hint" class="nf-faint text-center text-xs">Manual save to prevent bugs.</p>
+            <p id="achSaveHint" data-i18n="ach.hint" class="nf-faint text-center text-xs">Saves automatically. Tap to save right now.</p>
           </div>
 
           <p data-i18n="ach.tip" class="nf-faint mt-5 rounded-2xl p-3.5 text-xs leading-relaxed" style="background:rgba(0,0,0,.25);border:1px solid var(--line)">
-            Tip: Achievements do not save automatically, press save to ensure your progress being saved!
+            Tip: Achievements save automatically within a few seconds. The button just saves them right away.
           </p>
         </div>
       </div>
@@ -964,6 +964,6 @@
         });
       })();
     </script>
-    <script src="./app.js?v=8"></script>
+    <script src="./app.js?v=9"></script>
   </body>
 </html>

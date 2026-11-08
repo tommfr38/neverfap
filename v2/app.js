@@ -12,10 +12,6 @@
   // ✅ Create Supabase client (CDN build)
   const supa = window.supabase.createClient(url, key);
 
-  // Debug helpers
-  window.supa = supa;
-  window.supaClient = supa;
-
   // ----- i18n -----
   // i18n.js is a plain global loaded before this file. The fallbacks keep the
   // app running (in English) if it ever fails to load.
@@ -167,6 +163,8 @@
   // Canonical English stage name — this is what lands in the database, so it
   // must never be translated. Display names go through stageLabel().
   let bestStageName = "Unlit";
+  // Set when the flame reaches a new best stage; cleared by a successful save.
+  let bestStageDirty = false;
   let lastSavedAt = null;
   let diaryData = [];
   // Stage order seen on the previous render — a rise while the page is open
@@ -242,8 +240,10 @@
 
   async function saveAllNow(showSavedTime = true) {
     if (!sessionUser || !profileLoaded) return;
-
-    await ensureProfileRow();
+    // Start, reset and fail-count changes are written immediately by their own
+    // handlers; only achievements and the best stage wait for this save. The
+    // profile row is guaranteed to exist once loadProfile() has run.
+    if (!achievementsDirty && !bestStageDirty) return;
 
     const payload = {
       started_at: startedAt ? startedAt.toISOString() : null,
@@ -260,6 +260,7 @@
     if (error) throw error;
 
     achievementsDirty = false;
+    bestStageDirty = false;
     renderAchievementsUI();
 
     if (showSavedTime) {
@@ -564,7 +565,8 @@ function getStageInfoRows() {
   function startGlobalPopupChecks() {
     stopGlobalPopupChecks();
     checkGlobalPopup();
-    globalPopupTimer = setInterval(checkGlobalPopup, 10000);
+    // Announcements change rarely; once a minute keeps reads low.
+    globalPopupTimer = setInterval(checkGlobalPopup, 60000);
   }
 
   // The whole page takes its colour from the flame: theme.css reads these
@@ -733,6 +735,7 @@ function getStageInfoRows() {
 
     if (currentOrder > bestOrder) {
       bestStageName = stage.name;
+      bestStageDirty = true;
       renderStats();
     }
 
@@ -789,6 +792,7 @@ function getStageInfoRows() {
       profileLoaded = false;
       failCount = 0;
       bestStageName = "Unlit";
+      bestStageDirty = false;
       dismissedGlobalPopupKey = null;
       updateLastSavedText(null);
 
@@ -914,6 +918,7 @@ function getStageInfoRows() {
     achievements = data?.achievements || {};
     failCount = Number.isFinite(data?.fail_count) ? data.fail_count : 0;
     bestStageName = data?.best_stage || "Unlit";
+    bestStageDirty = false;
     achievementsDirty = false;
     profileLoaded = true;
     updateLastSavedText(null);
